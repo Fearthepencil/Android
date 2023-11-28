@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav"
+    app:startDestination="@id/cocktails">
+
+    <fragment
+        android:id="@+id/cocktails"
+        android:name="com.example.levi9application.Cocktails"
+        android:label="Cocktails"
+        tools:layout="@layout/fragment_cocktails" />
+    <fragment
+        android:id="@+id/favorites"
+        android:name="com.example.levi9application.Favorites"
+        android:label="Favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.levi9application.Profile"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+</navigation>
