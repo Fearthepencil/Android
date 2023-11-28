@@ -8,19 +8,19 @@
     <fragment
         android:id="@+id/cocktails"
         android:name="com.example.levi9application.Cocktails"
-        android:label="Cocktails"
         android:color="@color/white"
+        android:label="Cocktails"
         tools:layout="@layout/fragment_cocktails" />
     <fragment
         android:id="@+id/favorites"
         android:name="com.example.levi9application.Favorites"
-        android:label="Favorites"
         android:color="@color/white"
+        android:label="Favorites"
         tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/profile"
         android:name="com.example.levi9application.Profile"
-        android:label="Profile"
         android:color="@color/white"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

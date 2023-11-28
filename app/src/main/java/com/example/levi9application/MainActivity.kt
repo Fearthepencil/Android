@@ -31,9 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navController = findNavController(R.id.fragment)
-        //val appBarConfiguration = AppBarConfiguration(setOf(R.id.cocktails,R.id.favorites,R.id.cocktails))
-        //setupActionBarWithNavController(navController,appBarConfiguration)
-        //bottomNavigationView.setItemIconTintList(null);
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.cocktails,R.id.favorites,R.id.profile))
+        setupActionBarWithNavController(navController,appBarConfiguration)
         bottomNavigationView.setupWithNavController(navController)
     }
 }
