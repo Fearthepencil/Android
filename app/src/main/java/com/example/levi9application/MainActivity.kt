@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragment)
         //val appBarConfiguration = AppBarConfiguration(setOf(R.id.cocktails,R.id.favorites,R.id.cocktails))
         //setupActionBarWithNavController(navController,appBarConfiguration)
+        //bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setupWithNavController(navController)
     }
 }
