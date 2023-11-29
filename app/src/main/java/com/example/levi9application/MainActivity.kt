@@ -1,16 +1,11 @@
 package com.example.levi9application
 
-import android.animation.ObjectAnimator
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
-import android.view.animation.AnticipateInterpolator
-import android.view.animation.Interpolator
 import androidx.annotation.RequiresApi
-import androidx.core.animation.doOnEnd
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
     private var keepSplashOnScreen = true
     private val delay = 2000L
+
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +27,8 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navController = findNavController(R.id.fragment)
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.cocktails,R.id.favorites,R.id.profile))
-        setupActionBarWithNavController(navController,appBarConfiguration)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.cocktails, R.id.favorites, R.id.profile))
+        setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigationView.setupWithNavController(navController)
     }
 }
