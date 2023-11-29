@@ -7,6 +7,9 @@ android {
     namespace = "com.example.levi9application"
     compileSdk = 34
 
+    buildFeatures{
+        viewBinding = true
+    }
     defaultConfig {
         applicationId = "com.example.levi9application"
         minSdk = 26
