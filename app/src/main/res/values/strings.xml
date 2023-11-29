@@ -11,5 +11,13 @@
     <string name="Favorites">
         Favorites
     </string>
+    <string name="Profile_name"> Name </string>
+    <string name="Profile_email"> Email </string>
+    <string name="Profile_password"> Password </string>
+    <string name="name"> Placeholder Name </string>
+    <string name="email"> placeholder@email.com </string>
+    <string name="password"> password123 </string>
+    <string name="button_logout"> Logout</string>
+
 
 </resources>

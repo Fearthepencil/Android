@@ -14,4 +14,8 @@
         <item name="android:fontFamily">@font/caveat</item>
         </style>
 
+        <style name="button" parent="ThemeOverlay.AppCompat">
+                <item name="colorAccent">@android:color/white</item>
+        </style>
+
 </resources>
