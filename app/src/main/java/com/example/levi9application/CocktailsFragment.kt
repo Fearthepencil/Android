@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.levi9application.databinding.FragmentCocktailsBinding
 
 class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
-    private lateinit var binding: FragmentCocktailsBinding
+    private var _binding: FragmentCocktailsBinding? = null
+    private val binding get() = _binding!!
     private lateinit var adapter: CocktailAdapter
     private lateinit var list: List<Cocktail>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
-        binding = FragmentCocktailsBinding.inflate(inflater, container, false)
+        _binding = FragmentCocktailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -36,11 +36,15 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                 R.drawable.image, context?.getString(R.string.placeholder) ?: "Not found", false
             ), Cocktail(
                 R.drawable.image, context?.getString(R.string.placeholder) ?: "Not found", false
+            ), Cocktail(
+                R.drawable.image, context?.getString(R.string.placeholder) ?: "Not found", false
+            ), Cocktail(
+                R.drawable.image, context?.getString(R.string.placeholder) ?: "Not found", false
             )
         )
     }
 
-    private fun rvSetup(){
+    private fun rvSetup() {
         list = dataInit()
 
         adapter = CocktailAdapter(list)
