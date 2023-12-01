@@ -12,4 +12,11 @@
         <item name="android:background">@drawable/circular_text_edit</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="toolBarTheme">
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:background">@color/toolbar_color</item>
+        <item name="android:drawableTint">@color/black</item>
+    </style>
 </resources>
