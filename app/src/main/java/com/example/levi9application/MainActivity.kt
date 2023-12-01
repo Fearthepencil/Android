@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({ keepSplashOnScreen = false }, delay)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
         val bottomNavigationView = binding.bottomNavigationView
         val navController = findNavController(R.id.fragment)
         bottomNavigationView.setupWithNavController(navController)
@@ -37,19 +36,20 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar.root)
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.profile,R.id.cocktails,R.id.favorites)
+            setOf(R.id.profile, R.id.cocktails, R.id.favorites)
         )
-        setupActionBarWithNavController(navController,appBarConfiguration)
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.menuSearch -> Toast.makeText(this,"Clicked on Search",Toast.LENGTH_SHORT).show()
-            R.id.menuFilter -> Toast.makeText(this,"Clicked on Filter",Toast.LENGTH_SHORT).show()
+        when (item.itemId) {
+            R.id.menuSearch -> Toast.makeText(this, "Clicked on Search", Toast.LENGTH_SHORT).show()
+            R.id.menuFilter -> Toast.makeText(this, "Clicked on Filter", Toast.LENGTH_SHORT).show()
         }
         return true
     }
