@@ -1,22 +1,18 @@
-package com.example.levi9application.Repositories
+package com.example.levi9application.repositories
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.levi9application.Common.Common
-import com.example.levi9application.Model.Drinks
-import com.example.levi9application.Network.APIService
+import com.example.levi9application.common.Common
+import com.example.levi9application.model.Drinks
+import com.example.levi9application.network.APIService
 import retrofit2.Call
 import retrofit2.Response
 
 class MainRepo {
-    private val apiService: APIService
+    private val apiService: APIService = Common.getAPIService
 
     companion object {
         private const val TAG = "MainRepo"
-    }
-
-    init {
-        apiService = Common.getAPIService
     }
 
     val getCocktailLiveData: MutableLiveData<Drinks?>

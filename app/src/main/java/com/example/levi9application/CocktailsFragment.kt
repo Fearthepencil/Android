@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.levi9application.Model.Cocktail
-import com.example.levi9application.ViewModel.CocktailViewModel
 import com.example.levi9application.databinding.FragmentCocktailsBinding
+import com.example.levi9application.model.Cocktail
+import com.example.levi9application.viewModel.CocktailViewModel
 
 class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     private var _binding: FragmentCocktailsBinding? = null
@@ -26,9 +26,9 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
 
         cocktailViewModel = ViewModelProvider(this)[CocktailViewModel::class.java]
 
-        cocktailViewModel!!.getCocktailList.observe(viewLifecycleOwner){cocktailModels ->
+        cocktailViewModel!!.getCocktailList.observe(viewLifecycleOwner) { cocktailModels ->
             if (cocktailModels != null) {
-                Log.e("Cocktail","CocktailList" + cocktailModels.cocktails)
+                Log.e("Cocktail", "CocktailList" + cocktailModels.cocktails)
 
                 list = cocktailModels.cocktails
 

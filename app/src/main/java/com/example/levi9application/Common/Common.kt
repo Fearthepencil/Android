@@ -1,7 +1,7 @@
-package com.example.levi9application.Common
+package com.example.levi9application.common
 
-import com.example.levi9application.Network.APIService
-import com.example.levi9application.Network.Retrofit
+import com.example.levi9application.network.APIService
+import com.example.levi9application.network.Retrofit
 
 object Common {
     private const val BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/"
