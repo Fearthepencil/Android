@@ -2,7 +2,6 @@
 <resources>
     <style name="Theme.Levi9Application.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash</item>
-
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_art</item>
         <item name="postSplashScreenTheme">@style/Theme.Levi9Application.Splash</item>
         <item name="windowSplashScreenAnimationDuration">3000</item>

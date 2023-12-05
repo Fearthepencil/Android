@@ -1,7 +1,7 @@
 package com.example.levi9application.common
 
 import com.example.levi9application.network.APIService
-import com.example.levi9application.repositories.MainRepo
+import com.example.levi9application.repositories.CocktailRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,8 +27,8 @@ object Common {
 
     @Provides
     @Singleton
-    fun provideMyRepository(apiService: APIService) : MainRepo{
-        return MainRepo(apiService)
+    fun cocktailRepo(apiService: APIService) : CocktailRepo{
+        return CocktailRepo(apiService)
     }
 
 }
