@@ -17,7 +17,7 @@ object Common {
 
     @Provides
     @Singleton
-    fun provideAPI(): APIService{
+    fun provideAPI(): APIService {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

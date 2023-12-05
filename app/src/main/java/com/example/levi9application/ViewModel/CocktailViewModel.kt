@@ -20,23 +20,22 @@ constructor
     val getCocktailList: MutableLiveData<Resource<List<Cocktail>>>
         get() = _response
 
-    init {
+    init{
         getCocktails()
     }
-
-    private fun getCocktails() = viewModelScope.launch {
+    fun getCocktails(query: String="") = viewModelScope.launch {
             try {
                 _response.value = Resource.Loading()
-                val response = cocktailRepo.getCocktailList()
-                    if (response.isSuccessful) {
-                        val drinks = response.body()?.cocktails ?: emptyList()
-                        _response.value = Resource.Success(drinks)
-                    } else {
-                        _response.value = Resource.Error(response.message())
-                    }
+                val response = cocktailRepo.getCocktailList(query)
+                if (response.isSuccessful) {
+                    val drinks = response.body()?.cocktails ?: emptyList()
+                    _response.value = Resource.Success(drinks)
+                } else {
+                    _response.value = Resource.Error(response.message())
+                }
             } catch (e: Exception) {
                 _response.value = e.message?.let { Resource.Error(it) }
             }
-        }
+    }
 
 }

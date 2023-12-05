@@ -6,12 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".CocktailsFragment">
 
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="match_parent"
+        android:textSize="25sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/rViewCocktails"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rViewCocktails"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSearch"
         tools:layout_editor_absoluteX="10dp" />
 
     <ProgressBar
