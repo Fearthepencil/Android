@@ -46,6 +46,7 @@
             <EditText
                 android:id="@+id/nameText"
                 style="@style/editTextTheme"
+                android:focusable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_marginTop="12dp"
@@ -74,6 +75,7 @@
                 style="@style/editTextTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
+                android:focusable="false"
                 android:layout_marginTop="12dp"
                 android:autofillHints="emailAddress"
                 android:ems="10"
@@ -106,6 +108,7 @@
                 android:ems="10"
                 android:inputType="textPassword"
                 android:text="@string/password"
+                android:focusable="false"
                 app:layout_constraintEnd_toEndOf="@+id/textView3"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />

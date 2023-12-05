@@ -8,6 +8,7 @@
 
     <EditText
         android:id="@+id/etSearch"
+        style="@style/editTextTheme"
         android:layout_width="match_parent"
         android:textSize="25sp"
         android:gravity="center"
