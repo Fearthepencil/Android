@@ -30,73 +30,70 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
 
         cocktailViewModel = ViewModelProvider(this)[CocktailViewModel::class.java]
 
-        cocktailViewModel.getCocktailList.observe(viewLifecycleOwner) { cocktailModels ->
-            when (cocktailModels) {
-                is Resource.Success -> {
-                    list = cocktailModels.data.toMutableList()
-                    if(list.isEmpty()){
-                        binding.rViewCocktails.visibility = View.GONE
-                        binding.indeterminateBar.visibility = View.GONE
-                        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-                        builder
-                            .setMessage("No results found")
-                            .setTitle("Search Error")
-                            .setPositiveButton("OK") { dialog, which ->
-                                // Do something.
-                            }
 
-                        val dialog: AlertDialog = builder.create()
-                        dialog.show()
-                        Log.e("Cocktail", "Error")
-
-                    }
-                    binding.rViewCocktails.visibility = View.VISIBLE
-                    binding.indeterminateBar.visibility = View.GONE
-                    rvSetup()
-                    Log.e("Cocktail", "CocktailList" + cocktailModels)
-                }
-                is Resource.Loading -> {
-                    list = mutableListOf<Cocktail>()
-                    binding.rViewCocktails.visibility = View.GONE
-                    binding.indeterminateBar.visibility = View.VISIBLE
-                    Log.e("Cocktail", "Empty" + cocktailModels)
-                }
-                is Resource.Error -> {
-                    list = mutableListOf<Cocktail>()
-                    binding.rViewCocktails.visibility = View.GONE
-                    binding.indeterminateBar.visibility = View.GONE
-                    val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-                    builder
-                        .setMessage("Check your Internet connection")
-                        .setTitle("Network Error")
-                        .setPositiveButton("OK") { dialog, which ->
-                            // Do something.
-                        }
-
-                    val dialog: AlertDialog = builder.create()
-                    dialog.show()
-                    Log.e("Cocktail", "Error")
-                }
-
-            }
-        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        cocktailViewModel.getCocktailList.observe(viewLifecycleOwner) { cocktailModels ->
+            when (cocktailModels) {
+                is Resource.Success -> {
+                    list = cocktailModels.data.toMutableList()
+                    if (list.isEmpty()) {
+                        binding.rViewCocktails.visibility = View.GONE
+                        binding.indeterminateBar.visibility = View.GONE
+                        showDialog("No results found", "Search Error")
+                        Log.e("Cocktail", "Empty List")
+
+                    }
+                    binding.rViewCocktails.visibility = View.VISIBLE
+                    binding.indeterminateBar.visibility = View.GONE
+                    rvSetup()
+                    Log.e("Cocktail", "CocktailList$cocktailModels")
+                }
+
+                is Resource.Loading -> {
+                    list = mutableListOf()
+                    binding.rViewCocktails.visibility = View.GONE
+                    binding.indeterminateBar.visibility = View.VISIBLE
+                }
+
+                is Resource.Error -> {
+                    list = mutableListOf()
+                    binding.rViewCocktails.visibility = View.GONE
+                    binding.indeterminateBar.visibility = View.GONE
+                    showDialog("Check your Internet connection", "Network Error")
+                    Log.e("Cocktail", "No Connection")
+                }
+
+            }
+        }
     }
 
     private fun rvSetup() {
 
         adapter = CocktailAdapter(list)
 
-        binding.rViewCocktails!!.adapter = adapter
+        binding.rViewCocktails.adapter = adapter
 
         val layoutManager = GridLayoutManager(context, 2)
         binding.rViewCocktails.layoutManager = layoutManager
     }
 
+    private fun showDialog(message: String, title: String) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        builder
+            .setMessage(message)
+            .setTitle(title)
+            .setPositiveButton("OK") { _, _ ->
+                // Do something.
+            }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
 
 
 }
