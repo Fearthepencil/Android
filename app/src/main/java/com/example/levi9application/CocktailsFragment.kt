@@ -92,8 +92,8 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                     list = mutableListOf()
                     binding.rViewCocktails.visibility = View.GONE
                     binding.indeterminateBar.visibility = View.GONE
-                    showDialog("Check your Internet connection", "Network Error")
-                    Log.e("Cocktail", "No Connection")
+                    //showDialog("Check your Internet connection", "Network Error")
+                    //Log.e("Cocktail", "No Connection")
                 }
 
             }
