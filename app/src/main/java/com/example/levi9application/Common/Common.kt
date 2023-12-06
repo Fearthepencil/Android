@@ -17,7 +17,7 @@ object Common {
 
     @Provides
     @Singleton
-    fun provideAPI(): APIService{
+    fun provideAPI(): APIService {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -27,7 +27,7 @@ object Common {
 
     @Provides
     @Singleton
-    fun cocktailRepo(apiService: APIService) : CocktailRepo{
+    fun cocktailRepo(apiService: APIService): CocktailRepo {
         return CocktailRepo(apiService)
     }
 
