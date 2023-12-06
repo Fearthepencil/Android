@@ -38,7 +38,6 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
 
         cocktailViewModel = ViewModelProvider(this)[CocktailViewModel::class.java]
 
-
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.toolbar_menu, menu)

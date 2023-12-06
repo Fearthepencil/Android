@@ -25,15 +25,16 @@ class CocktailViewModel
 
     private val debounce = 500L
 
+    private val handler = CoroutineExceptionHandler { _, e ->
+        _response.value = e.message?.let { Resource.Error(it) }
+    }
+
     init {
         getCocktails()
     }
 
     fun getCocktails(query: String = "") {
         job?.cancel()
-        val handler = CoroutineExceptionHandler { _, e ->
-            _response.value = e.message?.let { Resource.Error(it) }
-        }
         job = viewModelScope.launch(handler) {
             _response.value = Resource.Loading()
             if (query.isNotEmpty()) {
