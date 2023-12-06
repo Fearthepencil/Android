@@ -40,20 +40,27 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
         cocktailViewModel = ViewModelProvider(this)[CocktailViewModel::class.java]
 
 
-        requireActivity().addMenuProvider(object: MenuProvider{
+        requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.toolbar_menu,menu)
+                menuInflater.inflate(R.menu.toolbar_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
-                    R.id.menuSearch -> binding.etSearch.visibility = View.VISIBLE
-                    R.id.menuFilter -> Toast.makeText(activity, "Clicked on Filter", Toast.LENGTH_SHORT).show()
+                    R.id.menuSearch -> {
+                        if (binding.etSearch.visibility != View.VISIBLE) binding.etSearch.visibility =
+                            View.VISIBLE
+                        else binding.etSearch.visibility = View.GONE
+                    }
+
+                    R.id.menuFilter -> Toast.makeText(
+                        activity, "Clicked on Filter", Toast.LENGTH_SHORT
+                    ).show()
                 }
                 return true
             }
 
-        },viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         binding.etSearch.doAfterTextChanged {
             query = it.toString().trim()
@@ -92,8 +99,6 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                     list = mutableListOf()
                     binding.rViewCocktails.visibility = View.GONE
                     binding.indeterminateBar.visibility = View.GONE
-                    //showDialog("Check your Internet connection", "Network Error")
-                    //Log.e("Cocktail", "No Connection")
                 }
 
             }
@@ -116,11 +121,8 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
 
     private fun showDialog(message: String, title: String) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-        builder
-            .setMessage(message)
-            .setTitle(title)
-            .setPositiveButton("OK") { _, _ ->
-            }
+        builder.setMessage(message).setTitle(title).setPositiveButton("OK") { _, _ ->
+        }
 
         val dialog: AlertDialog = builder.create()
         dialog.show()

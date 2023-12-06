@@ -27,7 +27,7 @@ object Common {
 
     @Provides
     @Singleton
-    fun cocktailRepo(apiService: APIService) : CocktailRepo{
+    fun cocktailRepo(apiService: APIService): CocktailRepo {
         return CocktailRepo(apiService)
     }
 
