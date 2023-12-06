@@ -66,6 +66,13 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
             query = it.toString().trim()
             cocktailViewModel.getCocktails(query)
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = false
+            query = ""
+            cocktailViewModel.getCocktails(query)
+            adapter.notifyDataSetChanged()
+        }
         return binding.root
     }
 
