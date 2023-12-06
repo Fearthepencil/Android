@@ -14,5 +14,6 @@
     <string name="filter">Filter</string>
     <string name="placeholder">Placeholder</string>
     <string name="searchBar">Enter a cocktail name...</string>
-
+    <string name="searchErrorMessage">No results found</string>
+    <string name="searchErrorTitle">Search Error</string>
 </resources>

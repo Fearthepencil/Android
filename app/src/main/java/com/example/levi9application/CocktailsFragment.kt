@@ -2,7 +2,6 @@ package com.example.levi9application
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -62,17 +61,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        binding.etSearch.doAfterTextChanged {
-            query = it.toString().trim()
-            cocktailViewModel.getCocktails(query)
-        }
 
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            binding.swipeRefreshLayout.isRefreshing = false
-            query = ""
-            cocktailViewModel.getCocktails(query)
-            adapter.notifyDataSetChanged()
-        }
         return binding.root
     }
 
@@ -86,14 +75,15 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                     if (list.isEmpty()) {
                         binding.rViewCocktails.visibility = View.GONE
                         binding.indeterminateBar.visibility = View.GONE
-                        showDialog("No results found", "Search Error")
-                        Log.e("Cocktail", "Empty List")
+                        showDialog(
+                            resources.getString(R.string.searchErrorMessage),
+                            resources.getString(R.string.searchErrorTitle)
+                        )
 
                     }
                     binding.rViewCocktails.visibility = View.VISIBLE
                     binding.indeterminateBar.visibility = View.GONE
                     rvSetup()
-                    Log.e("Cocktail", "CocktailList$cocktailModels")
                 }
 
                 is Resource.Loading -> {
@@ -111,7 +101,16 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
             }
         }
         cocktailViewModel.getCocktails()
+        binding.etSearch.doAfterTextChanged {
+            query = it.toString().trim()
+            cocktailViewModel.getCocktails(query)
+        }
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = false
+            query = binding.etSearch.text.toString()
+            cocktailViewModel.getCocktails(query)
+        }
     }
 
     private fun rvSetup() {

@@ -7,6 +7,7 @@ import com.example.levi9application.model.Cocktail
 import com.example.levi9application.model.Resource
 import com.example.levi9application.repositories.CocktailRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -14,9 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CocktailViewModel
-@Inject
-constructor
-    (private val cocktailRepo: CocktailRepo) : ViewModel() {
+@Inject constructor(private val cocktailRepo: CocktailRepo) : ViewModel() {
 
     private var job: Job? = null
 
@@ -25,29 +24,30 @@ constructor
         get() = _response
 
     private val debounce = 500L
-    init{
+
+    init {
         getCocktails()
     }
-    fun getCocktails(query: String="") {
+
+    fun getCocktails(query: String = "") {
         job?.cancel()
-        job = viewModelScope.launch{
-            try {
-                _response.value = Resource.Loading()
-                if(query.isNotEmpty()){
-                    delay(debounce)
-                }
-                val response = cocktailRepo.getCocktailList(query)
-                if (response.isSuccessful) {
-                    val drinks = response.body()?.cocktails ?: emptyList()
-                    _response.value = Resource.Success(drinks)
-                } else {
-                    _response.value = Resource.Error(response.message())
-                }
-            } catch (e: Exception) {
-                _response.value = e.message?.let { Resource.Error(it) }
+        val handler = CoroutineExceptionHandler { _, e ->
+            _response.value = e.message?.let { Resource.Error(it) }
+        }
+        job = viewModelScope.launch(handler) {
+            _response.value = Resource.Loading()
+            if (query.isNotEmpty()) {
+                delay(debounce)
             }
+            val response = cocktailRepo.getCocktailList(query)
+            if (response.isSuccessful) {
+                val drinks = response.body()?.cocktails ?: emptyList()
+                _response.value = Resource.Success(drinks)
+            } else {
+                _response.value = Resource.Error(response.message())
+            }
+        }
 
     }
 
-    }
-    }
+}
