@@ -1,4 +1,7 @@
 package com.example.levi9application.viewModel
 
-class FavoritesViewModel {
+import androidx.lifecycle.ViewModel
+
+class FavoritesViewModel : ViewModel() {
+
 }

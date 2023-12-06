@@ -30,4 +30,6 @@ class CocktailAdapter(private var cocktails: MutableList<Cocktail>) :
         holder.itemCocktailBinding.cardTitle.text = cocktails[position].title
     }
 
+
+
 }
