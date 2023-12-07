@@ -2,6 +2,7 @@ package com.example.levi9application
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.levi9application.databinding.ItemFavoritesBinding
 import com.example.levi9application.databinding.ItemLabelBinding
@@ -10,6 +11,14 @@ import com.example.levi9application.view.FavoritesHolder
 
 class FavoritesAdapter(private var items: MutableList<FavoriteRecyclerViewItem>) :
     RecyclerView.Adapter<FavoritesHolder>() {
+
+    fun setItems(newItems: List<FavoriteRecyclerViewItem>){
+        items.apply{
+            clear()
+            addAll(newItems)
+        }
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesHolder {
         return when (viewType) {
             R.layout.item_favorites -> FavoritesHolder.CardViewHolder(
@@ -37,13 +46,30 @@ class FavoritesAdapter(private var items: MutableList<FavoriteRecyclerViewItem>)
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return items.size
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
             is FavoriteRecyclerViewItem.Cocktail -> R.layout.item_favorites
             is FavoriteRecyclerViewItem.Label -> R.layout.item_label
+        }
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView){
+        super.onAttachedToRecyclerView(recyclerView)
+        (recyclerView.layoutManager as GridLayoutManager).spanSizeLookup = getSpanSizeLookup()
+    }
+
+    private fun getSpanSizeLookup() : GridLayoutManager.SpanSizeLookup{
+        return object: GridLayoutManager.SpanSizeLookup(){
+            override fun getSpanSize(position: Int): Int {
+                return when(getItemViewType(position)){
+                    R.layout.item_favorites -> 1
+                    R.layout.item_label -> 2
+                    else -> 1
+                }
+            }
         }
     }
 
