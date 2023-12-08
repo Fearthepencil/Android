@@ -8,7 +8,7 @@ sealed class FavoriteItem{
         LABEL
     }
 
-    data class Favorite(val title: String, val imageSource: String): com.example.levi9application.model.FavoriteItem(){
+    data class Favorite(val title: String, val imageSource: String, val id: Int): com.example.levi9application.model.FavoriteItem(){
         override fun getType(): Int = Type.FAVORITE.ordinal
     }
 

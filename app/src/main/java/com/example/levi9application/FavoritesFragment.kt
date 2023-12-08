@@ -1,6 +1,7 @@
 package com.example.levi9application
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.levi9application.databinding.FragmentFavoritesBinding
 import com.example.levi9application.model.FavoriteItem
 import com.example.levi9application.viewModel.FavoritesViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
-
+@AndroidEntryPoint
 class FavoritesFragment : Fragment(R.layout.fragment_favorites){
     private lateinit var _binding: FragmentFavoritesBinding
     private lateinit var viewModel: FavoritesViewModel
@@ -26,9 +30,12 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites){
 
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[FavoritesViewModel::class.java]
-        list = mutableListOf()
-        setList()
         val layoutManager = GridLayoutManager(context, 2)
+        runBlocking {
+            launch {
+                setList()
+            }
+        }
         _binding.rViewFavorites.layoutManager = layoutManager
         _adapter = FavoritesAdapter(list)
         _binding.rViewFavorites.apply{
@@ -37,11 +44,24 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites){
         return _binding.root
     }
 
-    private fun setList(){
-        list.add(FavoriteItem.LabelItem("Alchoholic"))
-        for(i in 1..4) list.add(FavoriteItem.Favorite("Drinkic","https:\\/\\/www.thecocktaildb.com\\/images\\/media\\/drink\\/2x8thr1504816928.jpg"))
-        list.add(FavoriteItem.LabelItem("Non-Alchoholic"))
-        for(i in 1..4) list.add(FavoriteItem.Favorite("Drinkic","https:\\/\\/www.thecocktaildb.com\\/images\\/media\\/drink\\/2x8thr1504816928.jpg"))
+    private suspend fun setList(){
+        list = mutableListOf()
+        val tempListAlc = viewModel.getListAlc()
+        val tempListNonAlc = viewModel.getListNonAlc()
+        list.add(FavoriteItem.LabelItem("Alcoholic"))
+        if (tempListAlc != null) {
+            for(cocktail in tempListAlc){
+                list.add(FavoriteItem.Favorite(cocktail.title!!,cocktail.imageSrc!!,cocktail.id!!))
+                Log.e("msg","${cocktail.id}"+cocktail.title+cocktail.imageSrc)
+            }
+        }
+        list.add(FavoriteItem.LabelItem("Non Alcoholic"))
+        if (tempListNonAlc != null) {
+            for(cocktail in tempListNonAlc){
+                list.add(FavoriteItem.Favorite(cocktail.title!!,cocktail.imageSrc!!,cocktail.id!!))
+            }
+        }
+        val tempList = viewModel.getAll()
     }
 
 

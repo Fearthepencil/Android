@@ -29,13 +29,18 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     private lateinit var adapter: CocktailAdapter
     private lateinit var list: MutableList<Cocktail>
     private lateinit var cocktailViewModel: CocktailViewModel
+    private lateinit var _inflater: LayoutInflater
+    private lateinit var _container: ViewGroup
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+        _inflater = inflater
+        if (container != null) {
+            _container = container
+        }
         _binding = FragmentCocktailsBinding.inflate(inflater, container, false)
-
         cocktailViewModel = ViewModelProvider(this)[CocktailViewModel::class.java]
 
         requireActivity().addMenuProvider(object : MenuProvider {
@@ -61,6 +66,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
 
+
         return binding.root
     }
 
@@ -70,6 +76,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
         cocktailViewModel.getCocktailList.observe(viewLifecycleOwner) { cocktailModels ->
             when (cocktailModels) {
                 is Resource.Success -> {
+
                     list = cocktailModels.data.toMutableList()
                     if (list.isEmpty()) {
                         binding.rViewCocktails.visibility = View.GONE
@@ -114,7 +121,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
 
     private fun rvSetup() {
 
-        adapter = CocktailAdapter(list)
+        adapter = CocktailAdapter(list,cocktailViewModel)
 
         binding.rViewCocktails.adapter = adapter
 
@@ -132,6 +139,10 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
+
+
+
+
 
 
 }
