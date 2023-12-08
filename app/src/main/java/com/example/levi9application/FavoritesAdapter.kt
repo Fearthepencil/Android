@@ -6,28 +6,20 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.levi9application.databinding.ItemFavoritesBinding
 import com.example.levi9application.databinding.ItemLabelBinding
-import com.example.levi9application.model.FavoriteRecyclerViewItem
+import com.example.levi9application.model.FavoriteItem
 import com.example.levi9application.view.FavoritesHolder
 
-class FavoritesAdapter(private var items: MutableList<FavoriteRecyclerViewItem>) :
+class FavoritesAdapter(private var items: MutableList<FavoriteItem>) :
     RecyclerView.Adapter<FavoritesHolder>() {
-
-    fun setItems(newItems: List<FavoriteRecyclerViewItem>){
-        items.apply{
-            clear()
-            addAll(newItems)
-        }
-        notifyDataSetChanged()
-    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesHolder {
         return when (viewType) {
-            R.layout.item_favorites -> FavoritesHolder.CardViewHolder(
+            FavoriteItem.Type.FAVORITE.ordinal -> FavoritesHolder.CardViewHolder(
                 ItemFavoritesBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
 
-            R.layout.item_label -> FavoritesHolder.LabelViewHolder(
+            FavoriteItem.Type.LABEL.ordinal -> FavoritesHolder.LabelViewHolder(
                 ItemLabelBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
@@ -39,8 +31,8 @@ class FavoritesAdapter(private var items: MutableList<FavoriteRecyclerViewItem>)
 
     override fun onBindViewHolder(holder: FavoritesHolder, position: Int) {
         when(holder){
-            is FavoritesHolder.CardViewHolder -> holder.bind(items[position] as FavoriteRecyclerViewItem.Cocktail)
-            is FavoritesHolder.LabelViewHolder -> holder.bind(items[position] as FavoriteRecyclerViewItem.Label)
+            is FavoritesHolder.CardViewHolder -> holder.bind(items[position] as FavoriteItem.Favorite)
+            is FavoritesHolder.LabelViewHolder -> holder.bind(items[position] as FavoriteItem.LabelItem)
         }
 
     }
@@ -49,12 +41,7 @@ class FavoritesAdapter(private var items: MutableList<FavoriteRecyclerViewItem>)
         return items.size
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return when (items[position]) {
-            is FavoriteRecyclerViewItem.Cocktail -> R.layout.item_favorites
-            is FavoriteRecyclerViewItem.Label -> R.layout.item_label
-        }
-    }
+    override fun getItemViewType(position: Int): Int = items[position].getType()
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView){
         super.onAttachedToRecyclerView(recyclerView)
@@ -65,8 +52,8 @@ class FavoritesAdapter(private var items: MutableList<FavoriteRecyclerViewItem>)
         return object: GridLayoutManager.SpanSizeLookup(){
             override fun getSpanSize(position: Int): Int {
                 return when(getItemViewType(position)){
-                    R.layout.item_favorites -> 1
-                    R.layout.item_label -> 2
+                    FavoriteItem.Type.FAVORITE.ordinal -> 1
+                    FavoriteItem.Type.LABEL.ordinal -> 2
                     else -> 1
                 }
             }
