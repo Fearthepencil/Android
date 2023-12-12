@@ -22,7 +22,7 @@ import com.example.levi9application.viewModel.CocktailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CocktailsFragment : Fragment(R.layout.fragment_cocktails), FavoriteClickListener {
+class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     private var _binding: FragmentCocktailsBinding? = null
     private var query: String = ""
     private val binding get() = _binding!!
@@ -116,7 +116,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails), FavoriteClickLi
     }
 
     private fun rvSetup() {
-        adapter = CocktailAdapter(list, this)
+        adapter = CocktailAdapter(list, viewBindingOnItemClickListener)
         binding.rViewCocktails.adapter = adapter
         val layoutManager = GridLayoutManager(context, 2)
         binding.rViewCocktails.layoutManager = layoutManager
@@ -132,15 +132,17 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails), FavoriteClickLi
     }
 
 
-    override fun onFavoriteClick(data: Cocktail) {
-        if (data.selected == true) {
-            data.selected = false
-            data.id?.let {
-                cocktailViewModel.deleteCocktail(it)
+    private val viewBindingOnItemClickListener = object : CocktailAdapter.OnItemClickListener {
+        override fun onItemClick(data: Cocktail) {
+            if (data.selected == true) {
+                data.selected = false
+                data.id?.let {
+                    cocktailViewModel.deleteCocktail(it)
+                }
+            } else {
+                data.selected = true
+                cocktailViewModel.addCocktail(data)
             }
-        } else {
-            data.selected = true
-            cocktailViewModel.addCocktail(data)
         }
     }
 }

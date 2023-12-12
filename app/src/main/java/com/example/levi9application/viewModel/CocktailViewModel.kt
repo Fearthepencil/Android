@@ -55,7 +55,7 @@ class CocktailViewModel
             if (response.isSuccessful) {
                 val drinks = response.body()?.cocktails ?: emptyList()
                 val favorites = _repository.getFavoriteIds()
-                for(cocktail in drinks){
+                for (cocktail in drinks) {
                     cocktail.selected = favorites.contains(cocktail.id)
                 }
                 _response.value = Resource.Success(drinks)
@@ -77,7 +77,6 @@ class CocktailViewModel
             _repository.removeCocktail(cocktail)
         }
     }
-
 
 
 }

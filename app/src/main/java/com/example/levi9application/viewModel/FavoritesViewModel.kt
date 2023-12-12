@@ -1,26 +1,56 @@
 package com.example.levi9application.viewModel
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.levi9application.model.Cocktail
-import com.example.levi9application.model.CocktailDatabase
+import androidx.lifecycle.map
+import com.example.levi9application.model.FavoriteItem
 import com.example.levi9application.repositories.CocktailDataRepo
-import com.example.levi9application.view.CocktailDAO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel
-@Inject constructor(private val dao: CocktailDAO, application: Application) : ViewModel() {
-    val readData: LiveData<List<Cocktail>>
-    private val repository: CocktailDataRepo
+@Inject constructor(private val cocktailsRepo: CocktailDataRepo) : ViewModel() {
 
-    init {
-        val cocktailDAO = CocktailDatabase.getDatabase(application).getDao()
-        repository = CocktailDataRepo(cocktailDAO)
-        readData = repository.readCocktailData
+    val favoriteItemLiveData : LiveData<List<FavoriteItem>> = cocktailsRepo.readCocktailData.map { cocktails ->
+        val favItemsList = mutableListOf<FavoriteItem>()
+        var i = 0
+        if (cocktails.isEmpty()) return@map favItemsList
+
+        var tempLabel = cocktails[i].alcoholic?.let {
+            FavoriteItem.LabelItem(it)
+        } ?: FavoriteItem.LabelItem("")
+
+            favItemsList.add(tempLabel)
+
+            while (i < cocktails.size) {
+                if (tempLabel?.title == cocktails[i].alcoholic) {
+                    var tempItem =
+                        cocktails[i].title?.let {
+                            cocktails[i].imageSrc?.let { it1 ->
+                                cocktails[i].id?.let { it2 ->
+                                    FavoriteItem.Favorite(
+                                        it,
+                                        it1, it2
+                                    )
+                                }
+                            }
+                        }
+                    if (tempItem != null) {
+                        favItemsList.add(tempItem)
+                        i++
+                    }
+                }
+                else{
+                    tempLabel =  cocktails[i].alcoholic?.let {
+                        FavoriteItem.LabelItem(it)
+                    } ?: FavoriteItem.LabelItem("")
+                }
+            }
+         return@map favItemsList
     }
+
+
 
 
 }

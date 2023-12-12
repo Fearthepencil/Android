@@ -14,7 +14,7 @@ interface CocktailDAO {
     @Query("DELETE FROM cocktail_table WHERE id = :cocktailId")
     suspend fun deleteCocktail(cocktailId: Int)
 
-    @Query("SELECT * FROM cocktail_table ORDER BY id ASC")
+    @Query("SELECT * FROM cocktail_table ORDER BY alcoholic, id ASC")
     fun readCocktailData(): LiveData<List<Cocktail>>
 
     @Query("SELECT id FROM cocktail_table ORDER BY id ASC")

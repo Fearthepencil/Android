@@ -6,11 +6,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.levi9application.databinding.ItemFavoritesBinding
 import com.example.levi9application.databinding.ItemLabelBinding
-import com.example.levi9application.model.Cocktail
 import com.example.levi9application.model.FavoriteItem
 import com.example.levi9application.view.FavoritesHolder
 
-class FavoritesAdapter(private var items: MutableList<FavoriteItem>) :
+class FavoritesAdapter(private var items: List<FavoriteItem>) :
     RecyclerView.Adapter<FavoritesHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesHolder {
@@ -62,27 +61,10 @@ class FavoritesAdapter(private var items: MutableList<FavoriteItem>) :
         }
     }
 
-    fun setData(cocktails: List<Cocktail>){
-        this.items = adapt(cocktails)
+    fun setData(cocktails: List<FavoriteItem>){
+        this.items = cocktails
         notifyDataSetChanged()
     }
 
-    private fun adapt(cocktails: List<Cocktail>) : MutableList<FavoriteItem>{
-        val list = mutableListOf<FavoriteItem>()
-        list.add(FavoriteItem.LabelItem("Alcoholic"))
-        for(cocktail in cocktails){
-            cocktail.imageSrc?.let {
-                cocktail.id?.let { it1 ->
-                    cocktail.title?.let { it2 ->
-                        FavoriteItem.Favorite(
-                            it2,
-                            it, it1
-                        )
-                    }
-                }
-            }?.let { list.add(it) }
-        }
-        return list
-    }
 
 }
