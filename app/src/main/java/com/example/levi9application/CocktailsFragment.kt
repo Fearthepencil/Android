@@ -13,6 +13,7 @@ import androidx.core.view.MenuProvider
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.levi9application.databinding.FragmentCocktailsBinding
@@ -22,7 +23,7 @@ import com.example.levi9application.viewModel.CocktailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
+class CocktailsFragment : Fragment(R.layout.fragment_cocktails), FavoriteClickListener {
     private var _binding: FragmentCocktailsBinding? = null
     private var query: String = ""
     private val binding get() = _binding!!
@@ -42,6 +43,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
         }
         _binding = FragmentCocktailsBinding.inflate(inflater, container, false)
         cocktailViewModel = ViewModelProvider(this)[CocktailViewModel::class.java]
+
 
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -87,9 +89,9 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                         )
 
                     }
+                    rvSetup()
                     binding.rViewCocktails.visibility = View.VISIBLE
                     binding.indeterminateBar.visibility = View.GONE
-                    rvSetup()
                 }
 
                 is Resource.Loading -> {
@@ -120,8 +122,9 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     }
 
     private fun rvSetup() {
+        checkIfFavorite()
 
-        adapter = CocktailAdapter(list,cocktailViewModel)
+        adapter = CocktailAdapter(list, this)
 
         binding.rViewCocktails.adapter = adapter
 
@@ -141,8 +144,36 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     }
 
 
+    override fun onFavoriteClick(data: Cocktail) {
+        for (cocktail in list) {
+            if (cocktail.id == data.id) {
+                if (cocktail.selected == true) {
+                    cocktail.selected = false
+                    data.id?.let {
+                        cocktailViewModel.deleteCocktail(it)
+                    }
+                } else {
+                    cocktail.selected = true
+                    cocktailViewModel.addCocktail(data)
+                }
+                break
+            }
+        }
 
+    }
 
+    private fun checkIfFavorite(){
+        cocktailViewModel.readData.observe(viewLifecycleOwner, Observer {favorites ->
+            for(favorite in favorites){
+                for(cocktail in list){
+                    if(favorite.id == cocktail.id){
+                        cocktail.selected = true
+                    }
+                }
+            }
+        })
+
+    }
 
 
 }

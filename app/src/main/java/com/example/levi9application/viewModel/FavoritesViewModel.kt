@@ -13,9 +13,9 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoritesViewModel
 @Inject constructor(private val dao: CocktailDAO, application: Application) : ViewModel() {
-    private val readDataNonAlc: LiveData<List<Cocktail>>
-    private val readDataAlc: LiveData<List<Cocktail>>
-    private val readData: LiveData<List<Cocktail>>
+    val readDataNonAlc: LiveData<List<Cocktail>>
+    val readDataAlc: LiveData<List<Cocktail>>
+    val readData: LiveData<List<Cocktail>>
     private val repository: CocktailDataRepo
 
     init {
@@ -26,16 +26,5 @@ class FavoritesViewModel
         readData = repository.readData
     }
 
-    fun getListAlc() : List<Cocktail>? {
-        return readDataAlc.value
-    }
-
-    fun getListNonAlc() : List<Cocktail>? {
-        return readDataNonAlc.value
-    }
-
-    fun getAll() : List<Cocktail>?{
-        return readData.value
-    }
 
 }

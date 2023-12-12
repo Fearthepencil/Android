@@ -15,5 +15,5 @@ data class Cocktail(
     @SerializedName("idDrink")
     @PrimaryKey(autoGenerate = false)
     val id: Int? = null,
-    val selected: Boolean? = false
+    var selected: Boolean? = false
 )

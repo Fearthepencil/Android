@@ -13,24 +13,24 @@ import com.example.levi9application.view.CocktailDAO
 )
 abstract class CocktailDatabase : RoomDatabase() {
 
-    abstract fun getDao() : CocktailDAO
+    abstract fun getDao(): CocktailDAO
 
-    companion object{
+    companion object {
         @Volatile
         private var INSTANCE: CocktailDatabase? = null
 
-        fun getDatabase(context: Context) : CocktailDatabase{
+        fun getDatabase(context: Context): CocktailDatabase {
             val tempInstance = INSTANCE
-            if(tempInstance!=null){
+            if (tempInstance != null) {
                 return tempInstance
             }
-            synchronized(this){
+            synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     CocktailDatabase::class.java,
                     "cocktail_database"
                 ).build()
-                INSTANCE= instance
+                INSTANCE = instance
                 return instance
             }
         }

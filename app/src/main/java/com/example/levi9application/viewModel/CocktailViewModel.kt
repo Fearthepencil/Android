@@ -10,9 +10,9 @@ import com.example.levi9application.model.CocktailDatabase
 import com.example.levi9application.model.Resource
 import com.example.levi9application.repositories.CocktailDataRepo
 import com.example.levi9application.repositories.CocktailRepo
-import com.example.levi9application.view.CocktailDAO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -20,11 +20,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CocktailViewModel
-@Inject constructor(private val cocktailRepo: CocktailRepo, private val dao: CocktailDAO, application: Application) : ViewModel() {
+@Inject constructor(private val cocktailRepo: CocktailRepo, application: Application) : ViewModel() {
 
     private var job: Job? = null
-    private var readData: LiveData<List<Cocktail>>? = null
-    private val repository: CocktailDataRepo
+    val readData: LiveData<List<Cocktail>>
+    private val _repository: CocktailDataRepo
     private val _response = MutableLiveData<Resource<List<Cocktail>>>()
     val getCocktailList: LiveData<Resource<List<Cocktail>>>
         get() = _response
@@ -38,8 +38,8 @@ class CocktailViewModel
     init {
         getCocktails()
         val cocktailDAO = CocktailDatabase.getDatabase(application).getDao()
-        repository = CocktailDataRepo(cocktailDAO)
-        readData = repository.readData
+        _repository = CocktailDataRepo(cocktailDAO)
+        readData = _repository.readData
     }
 
     fun getCocktails(query: String = "") {
@@ -62,15 +62,18 @@ class CocktailViewModel
     }
 
     fun addCocktail(cocktail: Cocktail){
-        viewModelScope.launch {
-            repository.addCocktail(cocktail)
+        viewModelScope.launch(Dispatchers.IO) {
+            _repository.addCocktail(cocktail)
         }
     }
 
     fun deleteCocktail(cocktail: Int){
-        viewModelScope.launch {
-            repository.removeCocktail(cocktail)
+        viewModelScope.launch(Dispatchers.IO) {
+            _repository.removeCocktail(cocktail)
         }
     }
+
+
+
 
 }
