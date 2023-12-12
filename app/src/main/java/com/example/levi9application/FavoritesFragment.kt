@@ -14,7 +14,7 @@ import com.example.levi9application.viewModel.FavoritesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoritesFragment : Fragment(R.layout.fragment_favorites){
+class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     private lateinit var _binding: FragmentFavoritesBinding
     private lateinit var viewModel: FavoritesViewModel
     private lateinit var _adapter: FavoritesAdapter
@@ -34,7 +34,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites){
 
         _binding.rViewFavorites.layoutManager = layoutManager
         _adapter = FavoritesAdapter(list)
-        _binding.rViewFavorites.apply{
+        _binding.rViewFavorites.apply {
             adapter = _adapter
         }
         getData()
@@ -42,11 +42,12 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites){
         return _binding.root
     }
 
-    private fun setList(){
+    private fun setList() {
         list = mutableListOf()
     }
-    private fun getData(){
-        viewModel.readData.observe(viewLifecycleOwner,Observer{ favorite ->
+
+    private fun getData() {
+        viewModel.readData.observe(viewLifecycleOwner, Observer { favorite ->
             _adapter.setData(favorite)
         })
 //

@@ -22,9 +22,10 @@ object Common {
     @Provides
     fun provideContext(
         @ApplicationContext context: Context
-    ) : Context{
+    ): Context {
         return context
     }
+
     @Provides
     @Singleton
     fun provideAPI(): APIService {
@@ -43,13 +44,13 @@ object Common {
 
     @Provides
     @Singleton
-    fun getDatabase(context: Context): CocktailDatabase{
+    fun getDatabase(context: Context): CocktailDatabase {
         return CocktailDatabase.getDatabase(context)
     }
 
     @Provides
     @Singleton
-    fun getDao(database: CocktailDatabase): CocktailDAO{
+    fun getDao(database: CocktailDatabase): CocktailDAO {
         return database.getDao()
     }
 

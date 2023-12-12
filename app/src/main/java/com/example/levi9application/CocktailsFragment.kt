@@ -96,6 +96,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails), FavoriteClickLi
 
                 is Resource.Loading -> {
                     list = mutableListOf()
+                    rvSetup()
                     binding.rViewCocktails.visibility = View.GONE
                     binding.indeterminateBar.visibility = View.VISIBLE
                 }
@@ -162,11 +163,11 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails), FavoriteClickLi
 
     }
 
-    private fun checkIfFavorite(){
-        cocktailViewModel.readData.observe(viewLifecycleOwner, Observer {favorites ->
-            for(favorite in favorites){
-                for(cocktail in list){
-                    if(favorite.id == cocktail.id){
+    private fun checkIfFavorite() {
+        cocktailViewModel.readData.observe(viewLifecycleOwner, Observer { favorites ->
+            for (favorite in favorites) {
+                for (cocktail in list) {
+                    if (favorite.id == cocktail.id) {
                         cocktail.selected = true
                     }
                 }

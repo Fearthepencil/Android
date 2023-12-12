@@ -20,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CocktailViewModel
-@Inject constructor(private val cocktailRepo: CocktailRepo, application: Application) : ViewModel() {
+@Inject constructor(private val cocktailRepo: CocktailRepo, application: Application) :
+    ViewModel() {
 
     private var job: Job? = null
     val readData: LiveData<List<Cocktail>>
@@ -61,19 +62,17 @@ class CocktailViewModel
 
     }
 
-    fun addCocktail(cocktail: Cocktail){
+    fun addCocktail(cocktail: Cocktail) {
         viewModelScope.launch(Dispatchers.IO) {
             _repository.addCocktail(cocktail)
         }
     }
 
-    fun deleteCocktail(cocktail: Int){
+    fun deleteCocktail(cocktail: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _repository.removeCocktail(cocktail)
         }
     }
-
-
 
 
 }

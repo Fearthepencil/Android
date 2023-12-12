@@ -32,7 +32,7 @@ class FavoritesAdapter(private var items: MutableList<FavoriteItem>) :
     }
 
     override fun onBindViewHolder(holder: FavoritesHolder, position: Int) {
-        when(holder){
+        when (holder) {
             is FavoritesHolder.CardViewHolder -> holder.bind(items[position] as FavoriteItem.Favorite)
             is FavoritesHolder.LabelViewHolder -> holder.bind(items[position] as FavoriteItem.LabelItem)
         }
@@ -45,15 +45,15 @@ class FavoritesAdapter(private var items: MutableList<FavoriteItem>) :
 
     override fun getItemViewType(position: Int): Int = items[position].getType()
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView){
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         (recyclerView.layoutManager as GridLayoutManager).spanSizeLookup = getSpanSizeLookup()
     }
 
-    private fun getSpanSizeLookup() : GridLayoutManager.SpanSizeLookup{
-        return object: GridLayoutManager.SpanSizeLookup(){
+    private fun getSpanSizeLookup(): GridLayoutManager.SpanSizeLookup {
+        return object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return when(getItemViewType(position)){
+                return when (getItemViewType(position)) {
                     FavoriteItem.Type.FAVORITE.ordinal -> 1
                     FavoriteItem.Type.LABEL.ordinal -> 2
                     else -> 1
@@ -62,15 +62,15 @@ class FavoritesAdapter(private var items: MutableList<FavoriteItem>) :
         }
     }
 
-    fun setData(cocktails: List<Cocktail>){
+    fun setData(cocktails: List<Cocktail>) {
         this.items = adapt(cocktails)
         notifyDataSetChanged()
     }
 
-    private fun adapt(cocktails: List<Cocktail>) : MutableList<FavoriteItem>{
+    private fun adapt(cocktails: List<Cocktail>): MutableList<FavoriteItem> {
         val list = mutableListOf<FavoriteItem>()
         list.add(FavoriteItem.LabelItem("Alcoholic"))
-        for(cocktail in cocktails){
+        for (cocktail in cocktails) {
             cocktail.imageSrc?.let {
                 cocktail.id?.let { it1 ->
                     cocktail.title?.let { it2 ->

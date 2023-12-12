@@ -8,11 +8,14 @@ import com.example.levi9application.databinding.ItemCocktailBinding
 import com.example.levi9application.model.Cocktail
 import com.squareup.picasso.Picasso
 
-class CocktailAdapter(private var cocktails: MutableList<Cocktail>,private var listener: FavoriteClickListener) :
+class CocktailAdapter(
+    private var cocktails: MutableList<Cocktail>,
+    private var listener: FavoriteClickListener
+) :
     RecyclerView.Adapter<CocktailAdapter.ItemViewModel>() {
 
 
-    private var favoritesList : ArrayList<Cocktail> = ArrayList()
+    private var favoritesList: ArrayList<Cocktail> = ArrayList()
 
     inner class ItemViewModel(val itemCocktailBinding: ItemCocktailBinding) :
         RecyclerView.ViewHolder(itemCocktailBinding.root)
@@ -33,23 +36,22 @@ class CocktailAdapter(private var cocktails: MutableList<Cocktail>,private var l
         Picasso.get().load(cocktails[position].imageSrc)
             .into(holder.itemCocktailBinding.cocktailImage)
         holder.itemCocktailBinding.cardTitle.text = cocktails[position].title
-        if(cocktails[position].selected == true){
+        if (cocktails[position].selected == true) {
             holder.itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_on)
             holder.itemCocktailBinding.toggle.tag = "1"
-        }
-        else{
+        } else {
             holder.itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_off)
             holder.itemCocktailBinding.toggle.tag = "0"
         }
-        holder.itemCocktailBinding.toggle.setOnClickListener(){
+        holder.itemCocktailBinding.toggle.setOnClickListener() {
             listener.onFavoriteClick(cocktails[position])
-            if(holder.itemCocktailBinding.toggle.tag == "0"){
+            if (holder.itemCocktailBinding.toggle.tag == "0") {
                 holder.itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_on)
-                Log.e("checked","AAA")
-                holder.itemCocktailBinding.toggle.tag = "1" }
-            else{
+                Log.e("checked", "AAA")
+                holder.itemCocktailBinding.toggle.tag = "1"
+            } else {
                 holder.itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_off)
-                Log.e("unchecked","AAA")
+                Log.e("unchecked", "AAA")
                 holder.itemCocktailBinding.toggle.tag = "0"
             }
 
@@ -57,7 +59,6 @@ class CocktailAdapter(private var cocktails: MutableList<Cocktail>,private var l
 
 
     }
-
 
 
 }
