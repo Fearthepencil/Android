@@ -13,17 +13,13 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoritesViewModel
 @Inject constructor(private val dao: CocktailDAO, application: Application) : ViewModel() {
-    val readDataNonAlc: LiveData<List<Cocktail>>
-    val readDataAlc: LiveData<List<Cocktail>>
     val readData: LiveData<List<Cocktail>>
     private val repository: CocktailDataRepo
 
     init {
         val cocktailDAO = CocktailDatabase.getDatabase(application).getDao()
         repository = CocktailDataRepo(cocktailDAO)
-        readDataAlc = repository.readDataAlc
-        readDataNonAlc = repository.readDataNonAlc
-        readData = repository.readData
+        readData = repository.readCocktailData
     }
 
 

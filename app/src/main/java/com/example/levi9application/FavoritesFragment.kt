@@ -50,23 +50,6 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         viewModel.readData.observe(viewLifecycleOwner, Observer { favorite ->
             _adapter.setData(favorite)
         })
-//
-//        val tempListAlc = viewModel.getListAlc()
-//        val tempListNonAlc = viewModel.getListNonAlc()
-//
-//        if (tempListAlc != null) {
-//            for(cocktail in tempListAlc){
-//                list.add(FavoriteItem.Favorite(cocktail.title!!,cocktail.imageSrc!!,cocktail.id!!))
-//                Log.e("msg","${cocktail.id}"+cocktail.title+cocktail.imageSrc)
-//            }
-//        }
-//        list.add(FavoriteItem.LabelItem("Non Alcoholic"))
-//        if (tempListNonAlc != null) {
-//            for(cocktail in tempListNonAlc){
-//                list.add(FavoriteItem.Favorite(cocktail.title!!,cocktail.imageSrc!!,cocktail.id!!))
-//            }
-//        }
-//        val tempList = viewModel.getAll()
     }
 
 

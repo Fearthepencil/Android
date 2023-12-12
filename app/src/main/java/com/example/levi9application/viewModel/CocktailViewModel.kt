@@ -40,7 +40,7 @@ class CocktailViewModel
         getCocktails()
         val cocktailDAO = CocktailDatabase.getDatabase(application).getDao()
         _repository = CocktailDataRepo(cocktailDAO)
-        readData = _repository.readData
+        readData = _repository.readCocktailData
     }
 
     fun getCocktails(query: String = "") {
@@ -54,6 +54,10 @@ class CocktailViewModel
             val response = cocktailRepo.getCocktailList(query)
             if (response.isSuccessful) {
                 val drinks = response.body()?.cocktails ?: emptyList()
+                val favorites = _repository.getFavoriteIds()
+                for(cocktail in drinks){
+                    cocktail.selected = favorites.contains(cocktail.id)
+                }
                 _response.value = Resource.Success(drinks)
             } else {
                 _response.value = Resource.Error(response.message())
@@ -73,6 +77,7 @@ class CocktailViewModel
             _repository.removeCocktail(cocktail)
         }
     }
+
 
 
 }

@@ -29,7 +29,7 @@ abstract class CocktailDatabase : RoomDatabase() {
                     context.applicationContext,
                     CocktailDatabase::class.java,
                     "cocktail_database"
-                ).build()
+                ).allowMainThreadQueries().build()
                 INSTANCE = instance
                 return instance
             }
