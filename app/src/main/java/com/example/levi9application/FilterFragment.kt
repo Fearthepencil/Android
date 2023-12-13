@@ -1,12 +1,12 @@
 package com.example.levi9application
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.example.levi9application.databinding.FragmentFilterBinding
 import com.example.levi9application.databinding.ItemFilterBinding
 
@@ -50,8 +50,8 @@ class FilterFragment: Fragment(R.layout.fragment_filter){
         binding.listView.adapter = adapter
 
         binding.listView.setOnItemClickListener { _, _, position, _ ->
-            val selectedItem = options[position]
-            Log.e("selected",selectedItem)
+            val action = FilterFragmentDirections.actionFilterFragmentToFilterDetailFragment(options[position])
+            Navigation.findNavController(view).navigate(action)
             // Do something with the selected item
         }
     }
