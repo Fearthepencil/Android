@@ -10,7 +10,11 @@
         android:name="com.example.levi9application.CocktailsFragment"
         android:color="@color/white"
         android:label="Cocktails"
-        tools:layout="@layout/fragment_cocktails" />
+        tools:layout="@layout/fragment_cocktails" >
+        <action
+            android:id="@+id/action_cocktails_to_filterFragment"
+            app:destination="@id/filterFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favorites"
         android:name="com.example.levi9application.FavoritesFragment"
@@ -23,4 +27,8 @@
         android:color="@color/white"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.example.levi9application.FilterFragment"
+        android:label="FilterFragment" />
 </navigation>

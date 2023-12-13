@@ -8,12 +8,12 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.MenuProvider
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.levi9application.databinding.FragmentCocktailsBinding
 import com.example.levi9application.model.Cocktail
@@ -51,9 +51,10 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                         else binding.etSearch.visibility = View.GONE
                     }
 
-                    R.id.menuFilter -> Toast.makeText(
-                        activity, "Clicked on Filter", Toast.LENGTH_SHORT
-                    ).show()
+                    R.id.menuFilter ->{
+                        val navigation = findNavController()
+                        navigation.navigate(R.id.action_cocktails_to_filterFragment)
+                    }
                 }
                 return true
             }
