@@ -17,7 +17,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     private lateinit var _binding: FragmentFavoritesBinding
     private lateinit var viewModel: FavoritesViewModel
     private lateinit var _adapter: FavoritesAdapter
-    private lateinit var list: MutableList<FavoriteItem>
+    private lateinit var list: List<FavoriteItem>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,8 +29,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         viewModel = ViewModelProvider(this)[FavoritesViewModel::class.java]
         val layoutManager = GridLayoutManager(context, 2)
 
-        setList()
-
+        list = mutableListOf()
         _binding.rViewFavorites.layoutManager = layoutManager
         _adapter = FavoritesAdapter(list)
         _binding.rViewFavorites.apply {
@@ -45,12 +44,10 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
         viewModel.favoriteItemLiveData.observe(viewLifecycleOwner) {
             _adapter.setData(it)
+            this.list = it
         }
     }
 
-    private fun setList() {
-        list = mutableListOf()
-    }
 
 
 

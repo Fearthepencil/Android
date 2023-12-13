@@ -10,22 +10,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel
-@Inject constructor(private val cocktailsRepo: CocktailDataRepo) : ViewModel() {
+@Inject constructor(cocktailsRepo: CocktailDataRepo) : ViewModel() {
 
-    val favoriteItemLiveData : LiveData<List<FavoriteItem>> = cocktailsRepo.readCocktailData.map { cocktails ->
-        val favItemsList = mutableListOf<FavoriteItem>()
-        var i = 0
-        if (cocktails.isEmpty()) return@map favItemsList
+    val favoriteItemLiveData: LiveData<List<FavoriteItem>> =
+        cocktailsRepo.readCocktailData.map { cocktails ->
+            val favItemsList = mutableListOf<FavoriteItem>()
+            var i = 0
+            if (cocktails.isEmpty()) return@map favItemsList
 
-        var tempLabel = cocktails[i].alcoholic?.let {
-            FavoriteItem.LabelItem(it)
-        } ?: FavoriteItem.LabelItem("")
+            var tempLabel = cocktails[i].alcoholic?.let {
+                FavoriteItem.LabelItem(it)
+            } ?: FavoriteItem.LabelItem("")
 
             favItemsList.add(tempLabel)
 
             while (i < cocktails.size) {
-                if (tempLabel?.title == cocktails[i].alcoholic) {
-                    var tempItem =
+                if (tempLabel.title == cocktails[i].alcoholic) {
+                    val tempItem =
                         cocktails[i].title?.let {
                             cocktails[i].imageSrc?.let { it1 ->
                                 cocktails[i].id?.let { it2 ->
@@ -40,17 +41,15 @@ class FavoritesViewModel
                         favItemsList.add(tempItem)
                         i++
                     }
-                }
-                else{
-                    tempLabel =  cocktails[i].alcoholic?.let {
+                } else {
+                    tempLabel = cocktails[i].alcoholic?.let {
                         FavoriteItem.LabelItem(it)
                     } ?: FavoriteItem.LabelItem("")
+                    favItemsList.add(tempLabel)
                 }
             }
-         return@map favItemsList
-    }
-
-
+            return@map favItemsList
+        }
 
 
 }
