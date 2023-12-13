@@ -18,6 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object Common {
     private const val BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/"
+    private val retrofit = provideRetrofit()
 
     @Provides
     fun provideContext(
@@ -25,32 +26,32 @@ object Common {
     ): Context {
         return context
     }
-
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build()
+    }
     @Provides
     @Singleton
     fun provideAPI(): APIService {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(APIService::class.java)
+        return retrofit.create(APIService::class.java)
     }
 
     @Provides
     @Singleton
-    fun cocktailRepo(apiService: APIService): CocktailRepo {
+    fun provideCocktailRepo(apiService: APIService): CocktailRepo {
         return CocktailRepo(apiService)
     }
 
     @Provides
     @Singleton
-    fun getDatabase(context: Context): CocktailDatabase {
+    fun provideDatabase(context: Context): CocktailDatabase {
         return CocktailDatabase.getDatabase(context)
     }
 
     @Provides
     @Singleton
-    fun getDao(database: CocktailDatabase): CocktailDAO {
+    fun provideDao(database: CocktailDatabase): CocktailDAO {
         return database.getDao()
     }
 

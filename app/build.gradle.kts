@@ -3,7 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
     kotlin("kapt")
+    id("androidx.navigation.safeargs")
 }
+
 
 android {
     namespace = "com.example.levi9application"

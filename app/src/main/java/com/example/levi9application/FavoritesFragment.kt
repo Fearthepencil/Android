@@ -27,6 +27,13 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[FavoritesViewModel::class.java]
+
+
+        return _binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val layoutManager = GridLayoutManager(context, 2)
 
         list = mutableListOf()
@@ -35,13 +42,6 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         _binding.rViewFavorites.apply {
             adapter = _adapter
         }
-
-        return _binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         viewModel.favoriteItemLiveData.observe(viewLifecycleOwner) {
             _adapter.setData(it)
             this.list = it

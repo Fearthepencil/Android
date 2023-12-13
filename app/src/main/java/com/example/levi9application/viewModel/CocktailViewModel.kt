@@ -1,12 +1,10 @@
 package com.example.levi9application.viewModel
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.levi9application.model.Cocktail
-import com.example.levi9application.model.CocktailDatabase
 import com.example.levi9application.model.Resource
 import com.example.levi9application.repositories.CocktailDataRepo
 import com.example.levi9application.repositories.CocktailRepo
@@ -20,11 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CocktailViewModel
-@Inject constructor(private val cocktailRepo: CocktailRepo, application: Application) :
+@Inject constructor(private val cocktailRepo: CocktailRepo, cocktailDataRepo: CocktailDataRepo) :
     ViewModel() {
 
     private var job: Job? = null
-    val readData: LiveData<List<Cocktail>>
     private val _repository: CocktailDataRepo
     private val _response = MutableLiveData<Resource<List<Cocktail>>>()
     val getCocktailList: LiveData<Resource<List<Cocktail>>>
@@ -38,9 +35,7 @@ class CocktailViewModel
 
     init {
         getCocktails()
-        val cocktailDAO = CocktailDatabase.getDatabase(application).getDao()
-        _repository = CocktailDataRepo(cocktailDAO)
-        readData = _repository.readCocktailData
+        _repository = cocktailDataRepo
     }
 
     fun getCocktails(query: String = "") {

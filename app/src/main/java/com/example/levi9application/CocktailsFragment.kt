@@ -133,15 +133,15 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
 
 
     private val viewBindingOnItemClickListener = object : CocktailAdapter.OnItemClickListener {
-        override fun onItemClick(data: Cocktail) {
-            if (data.selected == true) {
-                data.selected = false
-                data.id?.let {
+        override fun onItemClick(cocktail: Cocktail) {
+            if (cocktail.selected == true) {
+                cocktail.selected = false
+                cocktail.id?.let {
                     cocktailViewModel.deleteCocktail(it)
                 }
             } else {
-                data.selected = true
-                cocktailViewModel.addCocktail(data)
+                cocktail.selected = true
+                cocktailViewModel.addCocktail(cocktail)
             }
         }
     }
