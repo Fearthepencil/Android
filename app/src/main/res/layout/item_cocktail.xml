@@ -29,13 +29,14 @@
         app:layout_constraintStart_toStartOf="@+id/cocktailImage"
         app:layout_constraintTop_toBottomOf="@+id/cocktailImage" />
 
-    <ToggleButton
+    <ImageView
         android:id="@+id/toggle"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerVertical="true"
         android:adjustViewBounds="true"
-        android:background="@drawable/check"
+        android:background="@drawable/toggle_button_off"
+        android:tag="0"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:textOff=""

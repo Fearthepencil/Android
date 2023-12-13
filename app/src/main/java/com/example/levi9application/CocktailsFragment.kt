@@ -30,13 +30,13 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     private lateinit var list: MutableList<Cocktail>
     private lateinit var cocktailViewModel: CocktailViewModel
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCocktailsBinding.inflate(inflater, container, false)
-
         cocktailViewModel = ViewModelProvider(this)[CocktailViewModel::class.java]
+
+
 
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -60,7 +60,6 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-
         return binding.root
     }
 
@@ -79,14 +78,16 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                             resources.getString(R.string.searchErrorTitle)
                         )
 
+                    } else {
+                        binding.rViewCocktails.visibility = View.VISIBLE
+                        binding.indeterminateBar.visibility = View.GONE
                     }
-                    binding.rViewCocktails.visibility = View.VISIBLE
-                    binding.indeterminateBar.visibility = View.GONE
                     rvSetup()
                 }
 
                 is Resource.Loading -> {
                     list = mutableListOf()
+                    rvSetup()
                     binding.rViewCocktails.visibility = View.GONE
                     binding.indeterminateBar.visibility = View.VISIBLE
                 }
@@ -99,6 +100,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
 
             }
         }
+
         cocktailViewModel.getCocktails()
         binding.etSearch.doAfterTextChanged {
             query = it.toString().trim()
@@ -110,18 +112,14 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
             query = binding.etSearch.text.toString()
             cocktailViewModel.getCocktails(query)
         }
+
     }
 
     private fun rvSetup() {
-
-        adapter = CocktailAdapter(list)
-
+        adapter = CocktailAdapter(list, viewBindingOnItemClickListener)
         binding.rViewCocktails.adapter = adapter
-
         val layoutManager = GridLayoutManager(context, 2)
         binding.rViewCocktails.layoutManager = layoutManager
-
-
     }
 
     private fun showDialog(message: String, title: String) {
@@ -134,4 +132,18 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     }
 
 
+    private val viewBindingOnItemClickListener = object : CocktailAdapter.OnItemClickListener {
+        override fun onItemClick(cocktail: Cocktail) {
+            if (cocktail.selected == true) {
+                cocktail.selected = false
+                cocktail.id?.let {
+                    cocktailViewModel.deleteCocktail(it)
+                }
+            } else {
+                cocktail.selected = true
+                cocktailViewModel.addCocktail(cocktail)
+            }
+        }
+    }
 }
+

@@ -7,13 +7,39 @@ import com.example.levi9application.databinding.ItemCocktailBinding
 import com.example.levi9application.model.Cocktail
 import com.squareup.picasso.Picasso
 
-class CocktailAdapter(private var cocktails: MutableList<Cocktail>) :
-    RecyclerView.Adapter<CocktailAdapter.ItemViewModel>() {
-    inner class ItemViewModel(val itemCocktailBinding: ItemCocktailBinding) :
-        RecyclerView.ViewHolder(itemCocktailBinding.root)
+class CocktailAdapter(
+    private var cocktails: MutableList<Cocktail>,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<CocktailAdapter.ItemViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewModel {
-        return ItemViewModel(
+    inner class ItemViewHolder(private val itemCocktailBinding: ItemCocktailBinding) :
+        RecyclerView.ViewHolder(itemCocktailBinding.root) {
+
+        init{
+            itemCocktailBinding.root.setOnClickListener {
+                listener.onItemClick(cocktails[bindingAdapterPosition])
+                if (cocktails[bindingAdapterPosition].selected == true) {
+                    itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_on)
+                } else {
+                    itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_off)
+                }
+            }
+        }
+        fun bind(cocktail: Cocktail) {
+            if (cocktail.selected == true) {
+                itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_on)
+            } else {
+                itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_off)
+            }
+            itemCocktailBinding.cardTitle.text = cocktail.title
+            Picasso.get().load(cocktail.imageSrc).into(itemCocktailBinding.cocktailImage)
+
+        }
+    }
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        return ItemViewHolder(
             ItemCocktailBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
@@ -24,12 +50,13 @@ class CocktailAdapter(private var cocktails: MutableList<Cocktail>) :
         return cocktails.size
     }
 
-    override fun onBindViewHolder(holder: ItemViewModel, position: Int) {
-        Picasso.get().load(cocktails[position].imageSrc)
-            .into(holder.itemCocktailBinding.cocktailImage)
-        holder.itemCocktailBinding.cardTitle.text = cocktails[position].title
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        holder.bind(cocktails[position])
     }
 
+    interface OnItemClickListener {
+        fun onItemClick(cocktail: Cocktail)
+    }
 
 
 }

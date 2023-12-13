@@ -9,8 +9,9 @@ import com.example.levi9application.databinding.ItemLabelBinding
 import com.example.levi9application.model.FavoriteItem
 import com.example.levi9application.view.FavoritesHolder
 
-class FavoritesAdapter(private var items: MutableList<FavoriteItem>) :
+class FavoritesAdapter(private var items: List<FavoriteItem>) :
     RecyclerView.Adapter<FavoritesHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesHolder {
         return when (viewType) {
             FavoriteItem.Type.FAVORITE.ordinal -> FavoritesHolder.CardViewHolder(
@@ -59,5 +60,11 @@ class FavoritesAdapter(private var items: MutableList<FavoriteItem>) :
             }
         }
     }
+
+    fun setData(cocktails: List<FavoriteItem>){
+        this.items = cocktails
+        notifyDataSetChanged()
+    }
+
 
 }
