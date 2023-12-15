@@ -1,4 +1,4 @@
-package com.example.levi9application
+package com.example.levi9application.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.levi9application.R
+import com.example.levi9application.adapters.FavoritesAdapter
 import com.example.levi9application.databinding.FragmentFavoritesBinding
-import com.example.levi9application.model.FavoriteItem
-import com.example.levi9application.viewModel.FavoritesViewModel
+import com.example.levi9application.models.FavoriteItem
+import com.example.levi9application.viewModels.FavoritesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

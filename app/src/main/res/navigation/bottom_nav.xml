@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/cocktails"
-        android:name="com.example.levi9application.CocktailsFragment"
+        android:name="com.example.levi9application.fragments.CocktailsFragment"
         android:color="@color/white"
         android:label="Cocktails"
         tools:layout="@layout/fragment_cocktails" >
@@ -17,19 +17,19 @@
     </fragment>
     <fragment
         android:id="@+id/favorites"
-        android:name="com.example.levi9application.FavoritesFragment"
+        android:name="com.example.levi9application.fragments.FavoritesFragment"
         android:color="@color/white"
         android:label="Favorites"
         tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/profile"
-        android:name="com.example.levi9application.ProfileFragment"
+        android:name="com.example.levi9application.fragments.ProfileFragment"
         android:color="@color/white"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.example.levi9application.FilterFragment"
+        android:name="com.example.levi9application.fragments.FilterFragment"
         android:label="FilterFragment" >
         <action
             android:id="@+id/action_filterFragment_to_filterDetailFragment"
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/filterDetailFragment"
-        android:name="com.example.levi9application.FilterDetailFragment"
+        android:name="com.example.levi9application.fragments.FilterDetailFragment"
         android:label="FilterDetailFragment" >
         <argument
             android:name="selected"

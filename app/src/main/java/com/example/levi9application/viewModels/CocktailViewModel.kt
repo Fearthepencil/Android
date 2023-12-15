@@ -1,11 +1,11 @@
-package com.example.levi9application.viewModel
+package com.example.levi9application.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.levi9application.model.Cocktail
-import com.example.levi9application.model.Resource
+import com.example.levi9application.models.Cocktail
+import com.example.levi9application.models.Resource
 import com.example.levi9application.repositories.CocktailDataRepo
 import com.example.levi9application.repositories.CocktailRepo
 import dagger.hilt.android.lifecycle.HiltViewModel

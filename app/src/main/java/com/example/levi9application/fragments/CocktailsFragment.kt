@@ -1,4 +1,4 @@
-package com.example.levi9application
+package com.example.levi9application.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -15,10 +15,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.levi9application.R
+import com.example.levi9application.adapters.CocktailAdapter
 import com.example.levi9application.databinding.FragmentCocktailsBinding
-import com.example.levi9application.model.Cocktail
-import com.example.levi9application.model.Resource
-import com.example.levi9application.viewModel.CocktailViewModel
+import com.example.levi9application.models.Cocktail
+import com.example.levi9application.models.Resource
+import com.example.levi9application.viewModels.CocktailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

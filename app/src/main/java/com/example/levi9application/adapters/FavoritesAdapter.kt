@@ -1,4 +1,4 @@
-package com.example.levi9application
+package com.example.levi9application.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.levi9application.databinding.ItemFavoritesBinding
 import com.example.levi9application.databinding.ItemLabelBinding
-import com.example.levi9application.model.FavoriteItem
-import com.example.levi9application.view.FavoritesHolder
+import com.example.levi9application.models.FavoriteItem
+import com.example.levi9application.database.FavoritesHolder
 
 class FavoritesAdapter(private var items: List<FavoriteItem>) :
     RecyclerView.Adapter<FavoritesHolder>() {

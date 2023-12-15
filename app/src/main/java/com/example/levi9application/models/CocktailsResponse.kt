@@ -1,4 +1,4 @@
-package com.example.levi9application.model
+package com.example.levi9application.models
 
 import com.google.gson.annotations.SerializedName
 

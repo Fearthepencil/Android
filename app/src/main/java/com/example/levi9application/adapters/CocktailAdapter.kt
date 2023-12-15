@@ -1,10 +1,11 @@
-package com.example.levi9application
+package com.example.levi9application.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.levi9application.R
 import com.example.levi9application.databinding.ItemCocktailBinding
-import com.example.levi9application.model.Cocktail
+import com.example.levi9application.models.Cocktail
 import com.squareup.picasso.Picasso
 
 class CocktailAdapter(

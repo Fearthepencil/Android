@@ -1,6 +1,6 @@
 package com.example.levi9application.repositories
 
-import com.example.levi9application.model.CocktailsResponse
+import com.example.levi9application.models.CocktailsResponse
 import retrofit2.Response
 
 interface CocktailRepoInterface {

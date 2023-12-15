@@ -1,10 +1,10 @@
 package com.example.levi9application.common
 
 import android.content.Context
-import com.example.levi9application.model.CocktailDatabase
+import com.example.levi9application.database.CocktailDAO
+import com.example.levi9application.database.CocktailDatabase
 import com.example.levi9application.network.APIService
 import com.example.levi9application.repositories.CocktailRepo
-import com.example.levi9application.view.CocktailDAO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

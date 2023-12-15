@@ -1,4 +1,4 @@
-package com.example.levi9application
+package com.example.levi9application.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.example.levi9application.R
 import com.example.levi9application.databinding.FragmentFilterBinding
 import com.example.levi9application.databinding.ItemFilterBinding
 
 class FilterFragment: Fragment(R.layout.fragment_filter){
 
-    private val options = arrayOf("Alcoholic/Non-Alcoholic","Category","Glass used","Ingredient")
+    private val options = arrayOf("Alcoholic or not","Category","Glass used","Ingredient")
 
     private var _binding : FragmentFilterBinding? = null
     private val binding get() = _binding!!
@@ -50,9 +51,9 @@ class FilterFragment: Fragment(R.layout.fragment_filter){
         binding.listView.adapter = adapter
 
         binding.listView.setOnItemClickListener { _, _, position, _ ->
+
             val action = FilterFragmentDirections.actionFilterFragmentToFilterDetailFragment(options[position])
             Navigation.findNavController(view).navigate(action)
-            // Do something with the selected item
         }
     }
 

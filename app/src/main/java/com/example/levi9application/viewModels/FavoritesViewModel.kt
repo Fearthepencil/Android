@@ -1,9 +1,9 @@
-package com.example.levi9application.viewModel
+package com.example.levi9application.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.example.levi9application.model.FavoriteItem
+import com.example.levi9application.models.FavoriteItem
 import com.example.levi9application.repositories.CocktailDataRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -20,7 +20,7 @@ class FavoritesViewModel
 
             var tempLabel = cocktails[i].alcoholic?.let {
                 FavoriteItem.LabelItem(it)
-            } ?: FavoriteItem.LabelItem("")
+            } ?: FavoriteItem.LabelItem("Other")
 
             favItemsList.add(tempLabel)
 
@@ -44,7 +44,7 @@ class FavoritesViewModel
                 } else {
                     tempLabel = cocktails[i].alcoholic?.let {
                         FavoriteItem.LabelItem(it)
-                    } ?: FavoriteItem.LabelItem("")
+                    } ?: FavoriteItem.LabelItem("Other")
                     favItemsList.add(tempLabel)
                 }
             }
