@@ -30,19 +30,15 @@ class FilterDetailViewModel
         _response.value = e.message?.let { Resource.Error(it) }
     }
 
-    init {
-        getCategories()
-    }
 
-    fun getCategories(query: String = "", query1: String="list") {
+    fun getCategories(queries: Map<String,String>) {
         job?.cancel()
         job = viewModelScope.launch(handler) {
             _response.value = Resource.Loading()
-            if (query.isNotEmpty()) {
+            if (queries.isNotEmpty()) {
                 delay(debounce)
             }
-            val queryFull = "https://www.thecocktaildb.com/api/json/v1/1/list.php?$query=$query1"
-            val response = categoryRepo.getCategoryList(queryFull)
+            val response = categoryRepo.getCategoryList(queries)
             if (response.isSuccessful) {
                 val drinks = response.body()?.categories ?: emptyList()
                 _response.value = Resource.Success(drinks)

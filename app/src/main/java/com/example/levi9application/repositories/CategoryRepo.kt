@@ -6,5 +6,5 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class CategoryRepo @Inject constructor(private val apiService: APIService) : CategoryRepoInterface {
-    override suspend fun getCategoryList(query: String): Response<CategoriesResponse> = apiService.getCategoryList(query)
+    override suspend fun getCategoryList(queries: Map<String,String>): Response<CategoriesResponse> = apiService.getCategoryList(queries)
 }

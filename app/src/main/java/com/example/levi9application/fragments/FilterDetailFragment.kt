@@ -47,7 +47,10 @@ class FilterDetailFragment : Fragment(R.layout.fragment_filter_details) {
             "Ingredient" -> "i"
             else -> ""
         }
-        viewModel.getCategories(arg)
+        val queryParams = mapOf(
+            arg to "list"
+        )
+        viewModel.getCategories(queryParams)
         viewModel.getCategoryList.observe(viewLifecycleOwner) {categories ->
             when(categories){
                 is Resource.Success -> {

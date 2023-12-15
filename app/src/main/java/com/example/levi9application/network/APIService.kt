@@ -5,13 +5,15 @@ import com.example.levi9application.models.CocktailsResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.http.QueryMap
 
 interface APIService {
     @GET("search.php")
     suspend fun getCocktailList(@Query("s") query: String = ""): Response<CocktailsResponse>
 
-    @GET
-    suspend fun getCategoryList(@Url url: String): Response<CategoriesResponse>
+    @GET("list.php")
+    suspend fun getCategoryList(@QueryMap queries: Map<String,String>): Response<CategoriesResponse>
 
+    @GET("filter.php")
+    suspend fun getFilteredCocktailList(@QueryMap queries: Map<String,String>): Response<CocktailsResponse>
 }
