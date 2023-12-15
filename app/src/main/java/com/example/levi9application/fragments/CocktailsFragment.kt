@@ -31,7 +31,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     private val args: CocktailsFragmentArgs by navArgs()
     private val binding get() = _binding!!
     private lateinit var adapter: CocktailAdapter
-    private lateinit var list: MutableList<Cocktail>
+    private var list: MutableList<Cocktail> = mutableListOf()
     private lateinit var cocktailViewModel: CocktailViewModel
 
     override fun onCreateView(
@@ -92,14 +92,11 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                     }
 
                     is Resource.Loading -> {
-                        list = mutableListOf()
-                        rvSetup()
                         binding.rViewCocktails.visibility = View.GONE
                         binding.indeterminateBar.visibility = View.VISIBLE
                     }
 
                     is Resource.Error -> {
-                        list = mutableListOf()
                         binding.rViewCocktails.visibility = View.GONE
                         binding.indeterminateBar.visibility = View.GONE
                     }
@@ -134,18 +131,16 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                     }
 
                     is Resource.Loading -> {
-                        list = mutableListOf()
-                        rvSetup()
                         binding.rViewCocktails.visibility = View.GONE
                         binding.indeterminateBar.visibility = View.VISIBLE
                     }
 
                     is Resource.Error -> {
-                        list = mutableListOf()
                         binding.rViewCocktails.visibility = View.GONE
                         binding.indeterminateBar.visibility = View.GONE
                     }
                 }
+
             }
 
 
@@ -161,7 +156,6 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
             query = binding.etSearch.text.toString()
             cocktailViewModel.getCocktails(query)
         }
-
     }
 
     private fun rvSetup() {
