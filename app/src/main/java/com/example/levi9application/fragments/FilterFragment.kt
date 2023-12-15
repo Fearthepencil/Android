@@ -51,7 +51,6 @@ class FilterFragment: Fragment(R.layout.fragment_filter){
         binding.listView.adapter = adapter
 
         binding.listView.setOnItemClickListener { _, _, position, _ ->
-
             val action = FilterFragmentDirections.actionFilterFragmentToFilterDetailFragment(options[position])
             Navigation.findNavController(view).navigate(action)
         }

@@ -25,7 +25,7 @@ class FavoritesViewModel
             favItemsList.add(tempLabel)
 
             while (i < cocktails.size) {
-                if (tempLabel.title == cocktails[i].alcoholic) {
+                if (tempLabel.title == cocktails[i].alcoholic || cocktails[i].alcoholic==null) {
                     val tempItem =
                         cocktails[i].title?.let {
                             cocktails[i].imageSrc?.let { it1 ->

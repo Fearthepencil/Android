@@ -15,5 +15,5 @@ interface APIService {
     suspend fun getCategoryList(@QueryMap queries: Map<String,String>): Response<CategoriesResponse>
 
     @GET("filter.php")
-    suspend fun getFilteredCocktailList(@QueryMap queries: Map<String,String>): Response<CocktailsResponse>
+    suspend fun getFilterList(@QueryMap queries: Map<String,String>): Response<CocktailsResponse>
 }

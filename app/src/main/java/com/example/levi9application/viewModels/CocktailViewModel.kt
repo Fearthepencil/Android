@@ -8,6 +8,7 @@ import com.example.levi9application.models.Cocktail
 import com.example.levi9application.models.Resource
 import com.example.levi9application.repositories.CocktailDataRepo
 import com.example.levi9application.repositories.CocktailRepo
+import com.example.levi9application.repositories.FilterRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CocktailViewModel
-@Inject constructor(private val cocktailRepo: CocktailRepo, cocktailDataRepo: CocktailDataRepo) :
+@Inject constructor(private val cocktailRepo: CocktailRepo, private val filterRepo: FilterRepo, cocktailDataRepo: CocktailDataRepo) :
     ViewModel() {
 
     private var job: Job? = null
@@ -26,12 +27,15 @@ class CocktailViewModel
     private val _response = MutableLiveData<Resource<List<Cocktail>>>()
     val getCocktailList: LiveData<Resource<List<Cocktail>>>
         get() = _response
-
+    private val _filterResponse = MutableLiveData<Resource<List<Cocktail>>>()
+    val getFilterList: LiveData<Resource<List<Cocktail>>>
+        get() = _filterResponse
     private val debounce = 500L
 
     private val handler = CoroutineExceptionHandler { _, e ->
         _response.value = e.message?.let { Resource.Error(it) }
     }
+
 
     init {
         getCocktails()
@@ -61,6 +65,22 @@ class CocktailViewModel
 
     }
 
+    fun getFilteredCocktails(queries: Map<String,String>){
+        job?.cancel()
+        job = viewModelScope.launch(handler) {
+            _filterResponse.value = Resource.Loading()
+            if (queries.isNotEmpty()) {
+                delay(debounce)
+            }
+            val response = filterRepo.getFilterList(queries)
+            if (response.isSuccessful) {
+                val drinks = response.body()?.cocktails ?: emptyList()
+                _filterResponse.value = Resource.Success(drinks)
+            } else {
+                _filterResponse.value = Resource.Error(response.message())
+            }
+        }
+    }
     fun addCocktail(cocktail: Cocktail) {
         viewModelScope.launch(Dispatchers.IO) {
             _repository.addCocktail(cocktail)

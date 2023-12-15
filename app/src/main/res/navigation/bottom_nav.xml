@@ -14,6 +14,14 @@
         <action
             android:id="@+id/action_cocktails_to_filterFragment"
             app:destination="@id/filterFragment" />
+        <argument
+            android:name="category"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="specificCategory"
+            app:argType="string"
+            android:defaultValue="" />
     </fragment>
     <fragment
         android:id="@+id/favorites"
@@ -42,5 +50,8 @@
         <argument
             android:name="selected"
             app:argType="string" />
+        <action
+            android:id="@+id/action_filterDetailFragment_to_cocktails"
+            app:destination="@id/cocktails" />
     </fragment>
 </navigation>
