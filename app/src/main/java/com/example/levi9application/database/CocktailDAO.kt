@@ -1,10 +1,10 @@
-package com.example.levi9application.view
+package com.example.levi9application.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.levi9application.model.Cocktail
+import com.example.levi9application.models.Cocktail
 
 @Dao
 interface CocktailDAO {

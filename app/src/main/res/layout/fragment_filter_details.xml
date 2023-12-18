@@ -4,44 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.CocktailsFragment">
+    android:background="@drawable/main_gradient"
+    tools:context=".fragments.FilterDetailFragment">
 
-    <EditText
-        android:id="@+id/etSearch"
-        style="@style/editTextTheme"
+    <TextView
+        android:id="@+id/labelTextFilterDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/baseline_search_24"
-        android:hint="@string/searchBar"
-        android:inputType="text"
-        android:textColorHint="@color/placeholderBlack"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/filterText"
+        android:textColor="@color/placeholderBlack"
         android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/swipeRefreshLayout"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rViewFilters"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/etSearch">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rViewCocktails"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/swipeRefreshLayout"
-            app:layout_constraintTop_toTopOf="@id/swipeRefreshLayout"
-            tools:layout_editor_absoluteX="10dp" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        app:layout_constraintTop_toBottomOf="@+id/labelTextFilterDetail" />
 
     <ProgressBar
-        android:id="@+id/indeterminateBar"
+        android:id="@+id/indeterminateBarFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
@@ -49,6 +41,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

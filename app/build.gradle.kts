@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
     kotlin("kapt")
-    id("androidx.navigation.safeargs")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 
@@ -14,6 +14,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
 
     defaultConfig {
         applicationId = "com.example.levi9application"
@@ -48,6 +49,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
 
 dependencies {
@@ -78,6 +80,8 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     androidTestImplementation("androidx.room:room-testing:2.6.1")
 
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
 
 }
 

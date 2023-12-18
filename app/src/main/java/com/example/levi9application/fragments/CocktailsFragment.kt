@@ -1,4 +1,4 @@
-package com.example.levi9application
+package com.example.levi9application.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -8,26 +8,31 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.MenuProvider
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.levi9application.R
+import com.example.levi9application.adapters.CocktailAdapter
 import com.example.levi9application.databinding.FragmentCocktailsBinding
-import com.example.levi9application.model.Cocktail
-import com.example.levi9application.model.Resource
-import com.example.levi9application.viewModel.CocktailViewModel
+import com.example.levi9application.models.Cocktail
+import com.example.levi9application.models.Resource
+import com.example.levi9application.viewModels.CocktailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     private var _binding: FragmentCocktailsBinding? = null
     private var query: String = ""
+    private val args: CocktailsFragmentArgs by navArgs()
+    private var queryParams: Map<String, String> = mapOf()
     private val binding get() = _binding!!
     private lateinit var adapter: CocktailAdapter
-    private lateinit var list: MutableList<Cocktail>
+    private var list: MutableList<Cocktail> = mutableListOf()
     private lateinit var cocktailViewModel: CocktailViewModel
 
     override fun onCreateView(
@@ -51,9 +56,10 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                         else binding.etSearch.visibility = View.GONE
                     }
 
-                    R.id.menuFilter -> Toast.makeText(
-                        activity, "Clicked on Filter", Toast.LENGTH_SHORT
-                    ).show()
+                    R.id.menuFilter -> {
+                        val navigation = findNavController()
+                        navigation.navigate(R.id.action_cocktails_to_filterFragment)
+                    }
                 }
                 return true
             }
@@ -66,42 +72,82 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.etSearch.visibility = View.GONE
-        cocktailViewModel.getCocktailList.observe(viewLifecycleOwner) { cocktailModels ->
-            when (cocktailModels) {
-                is Resource.Success -> {
-                    list = cocktailModels.data.toMutableList()
-                    if (list.isEmpty()) {
+        if (args.category == "" || args.specificCategory == "") {
+            cocktailViewModel.getCocktailList.observe(viewLifecycleOwner) { cocktailModels ->
+                when (cocktailModels) {
+                    is Resource.Success -> {
+                        list = cocktailModels.data.toMutableList()
+                        if (list.isEmpty()) {
+                            binding.rViewCocktails.visibility = View.GONE
+                            binding.indeterminateBar.visibility = View.GONE
+                            showDialog(
+                                resources.getString(R.string.searchErrorMessage),
+                                resources.getString(R.string.searchErrorTitle)
+                            )
+
+                        } else {
+                            binding.rViewCocktails.visibility = View.VISIBLE
+                            binding.indeterminateBar.visibility = View.GONE
+                        }
+                        rvSetup()
+                    }
+
+                    is Resource.Loading -> {
+                        binding.rViewCocktails.visibility = View.GONE
+                        binding.indeterminateBar.visibility = View.VISIBLE
+                    }
+
+                    is Resource.Error -> {
                         binding.rViewCocktails.visibility = View.GONE
                         binding.indeterminateBar.visibility = View.GONE
-                        showDialog(
-                            resources.getString(R.string.searchErrorMessage),
-                            resources.getString(R.string.searchErrorTitle)
-                        )
+                    }
 
-                    } else {
-                        binding.rViewCocktails.visibility = View.VISIBLE
+                }
+            }
+
+            cocktailViewModel.getCocktails()
+
+        } else {
+            if (queryParams.isEmpty())
+                queryParams = mapOf(
+                    args.category to args.specificCategory
+                )
+            cocktailViewModel.getFilteredCocktails(queryParams)
+            cocktailViewModel.getCocktailList.observe(viewLifecycleOwner) { cocktailModels ->
+                when (cocktailModels) {
+                    is Resource.Success -> {
+                        list = cocktailModels.data.toMutableList()
+                        if (list.isEmpty()) {
+                            binding.rViewCocktails.visibility = View.GONE
+                            binding.indeterminateBar.visibility = View.GONE
+                            showDialog(
+                                resources.getString(R.string.searchErrorMessage),
+                                resources.getString(R.string.searchErrorTitle)
+                            )
+
+                        } else {
+                            binding.rViewCocktails.visibility = View.VISIBLE
+                            binding.indeterminateBar.visibility = View.GONE
+                        }
+                        rvSetup()
+                    }
+
+                    is Resource.Loading -> {
+                        binding.rViewCocktails.visibility = View.GONE
+                        binding.indeterminateBar.visibility = View.VISIBLE
+                    }
+
+                    is Resource.Error -> {
+                        binding.rViewCocktails.visibility = View.GONE
                         binding.indeterminateBar.visibility = View.GONE
                     }
-                    rvSetup()
-                }
-
-                is Resource.Loading -> {
-                    list = mutableListOf()
-                    rvSetup()
-                    binding.rViewCocktails.visibility = View.GONE
-                    binding.indeterminateBar.visibility = View.VISIBLE
-                }
-
-                is Resource.Error -> {
-                    list = mutableListOf()
-                    binding.rViewCocktails.visibility = View.GONE
-                    binding.indeterminateBar.visibility = View.GONE
                 }
 
             }
+
+
         }
 
-        cocktailViewModel.getCocktails()
         binding.etSearch.doAfterTextChanged {
             query = it.toString().trim()
             cocktailViewModel.getCocktails(query)
@@ -112,7 +158,6 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
             query = binding.etSearch.text.toString()
             cocktailViewModel.getCocktails(query)
         }
-
     }
 
     private fun rvSetup() {
@@ -146,4 +191,3 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
         }
     }
 }
-

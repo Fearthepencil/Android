@@ -1,21 +1,21 @@
-package com.example.levi9application
+package com.example.levi9application.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.levi9application.R
 import com.example.levi9application.databinding.ItemCocktailBinding
-import com.example.levi9application.model.Cocktail
+import com.example.levi9application.models.Cocktail
 import com.squareup.picasso.Picasso
 
 class CocktailAdapter(
     private var cocktails: MutableList<Cocktail>,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<CocktailAdapter.ItemViewHolder>() {
-
     inner class ItemViewHolder(private val itemCocktailBinding: ItemCocktailBinding) :
         RecyclerView.ViewHolder(itemCocktailBinding.root) {
 
-        init{
+        init {
             itemCocktailBinding.root.setOnClickListener {
                 listener.onItemClick(cocktails[bindingAdapterPosition])
                 if (cocktails[bindingAdapterPosition].selected == true) {
@@ -25,6 +25,7 @@ class CocktailAdapter(
                 }
             }
         }
+
         fun bind(cocktail: Cocktail) {
             if (cocktail.selected == true) {
                 itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_on)

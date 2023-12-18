@@ -1,11 +1,11 @@
-package com.example.levi9application.model
+package com.example.levi9application.database
 
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.levi9application.view.CocktailDAO
+import com.example.levi9application.models.Cocktail
 
 @Database(
     entities = [Cocktail::class],

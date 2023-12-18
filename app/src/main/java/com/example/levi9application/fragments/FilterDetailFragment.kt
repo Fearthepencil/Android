@@ -1,0 +1,117 @@
+package com.example.levi9application.fragments
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.levi9application.R
+import com.example.levi9application.adapters.FilterDetailAdapter
+import com.example.levi9application.databinding.FragmentFilterDetailsBinding
+import com.example.levi9application.models.Category
+import com.example.levi9application.models.Resource
+import com.example.levi9application.viewModels.FilterDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class FilterDetailFragment : Fragment(R.layout.fragment_filter_details) {
+    private val args: FilterDetailFragmentArgs by navArgs()
+    private var _binding: FragmentFilterDetailsBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var adapter: FilterDetailAdapter
+    private lateinit var list: MutableList<Category>
+    private lateinit var viewModel: FilterDetailViewModel
+    private lateinit var arg: String
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentFilterDetailsBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this)[FilterDetailViewModel::class.java]
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val selected: String = " " + args.selected
+        val label: String = binding.labelTextFilterDetail.text.toString()
+        binding.labelTextFilterDetail.text = getString(R.string.placeholderFilter,selected,label)
+        arg = when (args.selected) {
+            "Alcoholic or not" -> "a"
+            "Category" -> "c"
+            "Glass used" -> "g"
+            "Ingredient" -> "i"
+            else -> ""
+        }
+        val queryParams = mapOf(
+            arg to "list"
+        )
+        viewModel.getCategories(queryParams)
+        viewModel.getCategoryList.observe(viewLifecycleOwner) { categories ->
+            when (categories) {
+                is Resource.Success -> {
+
+                    list = categories.data.toMutableList()
+                    if (list.isEmpty()) {
+                        binding.rViewFilters.visibility = View.GONE
+                        binding.indeterminateBarFilter.visibility = View.GONE
+                    } else {
+                        binding.indeterminateBarFilter.visibility = View.GONE
+                        binding.rViewFilters.visibility = View.VISIBLE
+                    }
+                    rvSetup()
+
+                }
+
+                is Resource.Loading -> {
+                    list = mutableListOf()
+                    rvSetup()
+                    binding.indeterminateBarFilter.visibility = View.VISIBLE
+                    binding.rViewFilters.visibility = View.GONE
+                }
+
+                is Resource.Error -> {
+                    list = mutableListOf()
+                    binding.rViewFilters.visibility = View.GONE
+                    binding.indeterminateBarFilter.visibility = View.GONE
+                }
+            }
+        }
+
+
+    }
+
+    private fun rvSetup() {
+        adapter = FilterDetailAdapter(list, viewBindingOnItemClickListener)
+        binding.rViewFilters.adapter = adapter
+        val layoutManager = LinearLayoutManager(context)
+        binding.rViewFilters.layoutManager = layoutManager
+    }
+
+
+    private val viewBindingOnItemClickListener = object : FilterDetailAdapter.OnItemClickListener {
+        override fun onItemClick(category: Category) {
+            val specificCategory: String? = when (arg) {
+                "a" -> category.alcoholic
+                "c" -> category.category
+                "g" -> category.glass
+                "i" -> category.ingredient
+                else -> "other"
+            }
+            val action = specificCategory?.let {
+                FilterDetailFragmentDirections.actionFilterDetailFragmentToCocktails(arg, it)
+            }
+            view?.let {
+                if (action != null) {
+                    Navigation.findNavController(it).navigate(action)
+                }
+            }
+        }
+    }
+}
+

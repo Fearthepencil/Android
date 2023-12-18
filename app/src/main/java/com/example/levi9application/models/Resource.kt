@@ -1,4 +1,4 @@
-package com.example.levi9application.model
+package com.example.levi9application.models
 
 sealed class Resource<out T> {
     data class Success<out T>(val data: T) : Resource<T>()

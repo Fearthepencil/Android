@@ -1,4 +1,4 @@
-package com.example.levi9application.model
+package com.example.levi9application.models
 
 sealed class FavoriteItem {
     abstract fun getType(): Int
@@ -9,11 +9,11 @@ sealed class FavoriteItem {
     }
 
     data class Favorite(val title: String, val imageSource: String, val id: Int) :
-        com.example.levi9application.model.FavoriteItem() {
+        FavoriteItem() {
         override fun getType(): Int = Type.FAVORITE.ordinal
     }
 
-    data class LabelItem(val title: String) : com.example.levi9application.model.FavoriteItem() {
+    data class LabelItem(val title: String) : FavoriteItem() {
         override fun getType(): Int = Type.LABEL.ordinal
     }
 

@@ -1,10 +1,10 @@
-package com.example.levi9application.view
+package com.example.levi9application.database
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.example.levi9application.databinding.ItemFavoritesBinding
 import com.example.levi9application.databinding.ItemLabelBinding
-import com.example.levi9application.model.FavoriteItem
+import com.example.levi9application.models.FavoriteItem
 import com.squareup.picasso.Picasso
 
 sealed class FavoritesHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
