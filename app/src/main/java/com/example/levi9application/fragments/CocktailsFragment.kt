@@ -113,7 +113,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                     args.category to args.specificCategory
                 )
             cocktailViewModel.getFilteredCocktails(queryParams)
-            cocktailViewModel.getFilterList.observe(viewLifecycleOwner) { cocktailModels ->
+            cocktailViewModel.getCocktailList.observe(viewLifecycleOwner) { cocktailModels ->
                 when (cocktailModels) {
                     is Resource.Success -> {
                         list = cocktailModels.data.toMutableList()
@@ -191,4 +191,3 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
         }
     }
 }
-

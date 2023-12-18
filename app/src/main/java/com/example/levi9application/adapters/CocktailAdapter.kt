@@ -59,4 +59,9 @@ class CocktailAdapter(
     }
 
 
+    fun updateAdapter(cocktails: List<Cocktail>){
+        this.cocktails = cocktails.toMutableList()
+        notifyDataSetChanged()
+    }
+
 }

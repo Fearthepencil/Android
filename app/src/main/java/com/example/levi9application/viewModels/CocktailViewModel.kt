@@ -27,9 +27,6 @@ class CocktailViewModel
     private val _response = MutableLiveData<Resource<List<Cocktail>>>()
     val getCocktailList: LiveData<Resource<List<Cocktail>>>
         get() = _response
-    private val _filterResponse = MutableLiveData<Resource<List<Cocktail>>>()
-    val getFilterList: LiveData<Resource<List<Cocktail>>>
-        get() = _filterResponse
     private val debounce = 500L
 
     private val handler = CoroutineExceptionHandler { _, e ->
@@ -46,7 +43,6 @@ class CocktailViewModel
         job?.cancel()
         job = viewModelScope.launch(handler) {
             _response.value = Resource.Loading()
-
             if (query.isNotEmpty()) {
                 delay(debounce)
             }
@@ -68,7 +64,7 @@ class CocktailViewModel
     fun getFilteredCocktails(queries: Map<String,String>){
         job?.cancel()
         job = viewModelScope.launch(handler) {
-            _filterResponse.value = Resource.Loading()
+            _response.value = Resource.Loading()
             val response = filterRepo.getFilterList(queries)
             if (response.isSuccessful) {
                 val drinks = response.body()?.cocktails ?: emptyList()
@@ -76,9 +72,9 @@ class CocktailViewModel
                 for (cocktail in drinks) {
                     cocktail.selected = favorites.contains(cocktail.id)
                 }
-                _filterResponse.value = Resource.Success(drinks)
+                _response.value = Resource.Success(drinks)
             } else {
-                _filterResponse.value = Resource.Error(response.message())
+                _response.value = Resource.Error(response.message())
             }
         }
     }
