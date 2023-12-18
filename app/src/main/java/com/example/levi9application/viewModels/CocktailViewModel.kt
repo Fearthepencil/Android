@@ -66,8 +66,7 @@ class CocktailViewModel
     }
 
     fun getFilteredCocktails(queries: Map<String, String>) {
-        job?.cancel()
-        job = viewModelScope.launch(handler) {
+        viewModelScope.launch(handler) {
             _response.value = Resource.Loading()
             val response = filterRepo.getFilterList(queries)
             if (response.isSuccessful) {
