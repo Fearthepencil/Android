@@ -108,7 +108,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
             cocktailViewModel.getCocktails()
 
         } else {
-            if(queryParams.isEmpty())
+            if (queryParams.isEmpty())
                 queryParams = mapOf(
                     args.category to args.specificCategory
                 )

@@ -19,7 +19,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CocktailViewModel
-@Inject constructor(private val cocktailRepo: CocktailRepo, private val filterRepo: FilterRepo, cocktailDataRepo: CocktailDataRepo) :
+@Inject constructor(
+    private val cocktailRepo: CocktailRepo,
+    private val filterRepo: FilterRepo,
+    cocktailDataRepo: CocktailDataRepo
+) :
     ViewModel() {
 
     private var job: Job? = null
@@ -61,7 +65,7 @@ class CocktailViewModel
 
     }
 
-    fun getFilteredCocktails(queries: Map<String,String>){
+    fun getFilteredCocktails(queries: Map<String, String>) {
         job?.cancel()
         job = viewModelScope.launch(handler) {
             _response.value = Resource.Loading()
@@ -78,6 +82,7 @@ class CocktailViewModel
             }
         }
     }
+
     fun addCocktail(cocktail: Cocktail) {
         viewModelScope.launch(Dispatchers.IO) {
             _repository.addCocktail(cocktail)

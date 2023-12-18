@@ -15,7 +15,7 @@ class CocktailAdapter(
     inner class ItemViewHolder(private val itemCocktailBinding: ItemCocktailBinding) :
         RecyclerView.ViewHolder(itemCocktailBinding.root) {
 
-        init{
+        init {
             itemCocktailBinding.root.setOnClickListener {
                 listener.onItemClick(cocktails[bindingAdapterPosition])
                 if (cocktails[bindingAdapterPosition].selected == true) {
@@ -25,6 +25,7 @@ class CocktailAdapter(
                 }
             }
         }
+
         fun bind(cocktail: Cocktail) {
             if (cocktail.selected == true) {
                 itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_on)
@@ -58,10 +59,5 @@ class CocktailAdapter(
         fun onItemClick(cocktail: Cocktail)
     }
 
-
-    fun updateAdapter(cocktails: List<Cocktail>){
-        this.cocktails = cocktails.toMutableList()
-        notifyDataSetChanged()
-    }
 
 }
