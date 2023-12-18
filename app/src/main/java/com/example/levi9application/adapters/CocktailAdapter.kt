@@ -12,7 +12,6 @@ class CocktailAdapter(
     private var cocktails: MutableList<Cocktail>,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<CocktailAdapter.ItemViewHolder>() {
-    private val limit: Int = 20
     inner class ItemViewHolder(private val itemCocktailBinding: ItemCocktailBinding) :
         RecyclerView.ViewHolder(itemCocktailBinding.root) {
 
@@ -48,7 +47,7 @@ class CocktailAdapter(
     }
 
     override fun getItemCount(): Int {
-        return minOf(cocktails.size,limit)
+        return cocktails.size
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {

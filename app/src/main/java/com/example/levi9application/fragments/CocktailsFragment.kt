@@ -29,6 +29,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     private var _binding: FragmentCocktailsBinding? = null
     private var query: String = ""
     private val args: CocktailsFragmentArgs by navArgs()
+    private var queryParams: Map<String, String> = mapOf()
     private val binding get() = _binding!!
     private lateinit var adapter: CocktailAdapter
     private var list: MutableList<Cocktail> = mutableListOf()
@@ -107,9 +108,10 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
             cocktailViewModel.getCocktails()
 
         } else {
-            val queryParams = mapOf(
-                args.category to args.specificCategory
-            )
+            if(queryParams.isEmpty())
+                queryParams = mapOf(
+                    args.category to args.specificCategory
+                )
             cocktailViewModel.getFilteredCocktails(queryParams)
             cocktailViewModel.getFilterList.observe(viewLifecycleOwner) { cocktailModels ->
                 when (cocktailModels) {

@@ -1,6 +1,5 @@
 package com.example.levi9application.fragments
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,9 +38,9 @@ class FilterDetailFragment : Fragment(R.layout.fragment_filter_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val text: String = " " + args.selected
-        val text2: String = binding.labelTextFilterDetail.text.toString()
-        binding.labelTextFilterDetail.text = text2 + text
+        val selected: String = " " + args.selected
+        val label: String = binding.labelTextFilterDetail.text.toString()
+        binding.labelTextFilterDetail.text = getString(R.string.placeholderFilter,selected,label)
         arg = when (args.selected) {
             "Alcoholic or not" -> "a"
             "Category" -> "c"
@@ -94,14 +93,6 @@ class FilterDetailFragment : Fragment(R.layout.fragment_filter_details) {
         binding.rViewFilters.layoutManager = layoutManager
     }
 
-    private fun showDialog(message: String, title: String) {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-        builder.setMessage(message).setTitle(title).setPositiveButton("OK") { _, _ ->
-        }
-
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
 
     private val viewBindingOnItemClickListener = object : FilterDetailAdapter.OnItemClickListener {
         override fun onItemClick(category: Category) {
