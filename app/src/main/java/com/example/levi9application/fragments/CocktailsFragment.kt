@@ -73,6 +73,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
         super.onViewCreated(view, savedInstanceState)
         binding.etSearch.visibility = View.GONE
         if (args.category == "" || args.specificCategory == "") {
+            cocktailViewModel.getCocktails()
             cocktailViewModel.getCocktailList.observe(viewLifecycleOwner) { cocktailModels ->
                 when (cocktailModels) {
                     is Resource.Success -> {
@@ -105,7 +106,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
                 }
             }
 
-            cocktailViewModel.getCocktails()
+
 
         } else {
             if (queryParams.isEmpty())
