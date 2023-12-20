@@ -1,6 +1,7 @@
 package com.example.levi9application.common
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.example.levi9application.database.CocktailDAO
 import com.example.levi9application.database.CocktailDatabase
 import com.example.levi9application.network.APIService
@@ -54,5 +55,10 @@ object Common {
     fun provideDao(database: CocktailDatabase): CocktailDAO {
         return database.getDao()
     }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
+        context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
 
 }
