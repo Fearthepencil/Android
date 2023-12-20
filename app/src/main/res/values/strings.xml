@@ -18,4 +18,7 @@
     <string name="searchErrorTitle">Search Error</string>
     <string name="filterText">Filter cocktails by</string>
     <string name="placeholderFilter">%s %s</string>
+    <string name="register">Registar</string>
+    <string name="login">Login</string>
+    <string name="or">or</string>
 </resources>

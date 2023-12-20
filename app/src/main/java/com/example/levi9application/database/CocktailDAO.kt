@@ -14,9 +14,12 @@ interface CocktailDAO {
     @Query("DELETE FROM cocktail_table WHERE id = :cocktailId")
     suspend fun deleteCocktail(cocktailId: Int)
 
+    //read where email = email_param
     @Query("SELECT * FROM cocktail_table ORDER BY alcoholic, id ASC")
     fun readCocktailData(): LiveData<List<Cocktail>>
 
+
+    //read where email = email_param
     @Query("SELECT id FROM cocktail_table ORDER BY id ASC")
     suspend fun readFavoriteId(): List<Int>
 }
