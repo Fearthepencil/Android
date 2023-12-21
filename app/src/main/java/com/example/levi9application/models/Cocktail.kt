@@ -1,10 +1,10 @@
 package com.example.levi9application.models
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
+
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "cocktail_table")
+@Entity(tableName = "cocktail_table", primaryKeys = ["id", "email"])
 data class Cocktail(
     @SerializedName("strDrink")
     val title: String? = null,
@@ -13,7 +13,7 @@ data class Cocktail(
     @SerializedName("strAlcoholic")
     val alcoholic: String? = null,
     @SerializedName("idDrink")
-    @PrimaryKey(autoGenerate = false)
-    val id: Int? = null,
-    var selected: Boolean? = false
+    val id: Int,
+    var selected: Boolean? = false,
+    var email: String
 )

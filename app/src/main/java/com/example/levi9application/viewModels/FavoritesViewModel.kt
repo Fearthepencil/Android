@@ -10,10 +10,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel
-@Inject constructor(cocktailsRepo: CocktailDataRepo) : ViewModel() {
+@Inject constructor(val cocktailsRepo: CocktailDataRepo) : ViewModel() {
+    lateinit var favoriteItemLiveData: LiveData<List<FavoriteItem>>
 
-    val favoriteItemLiveData: LiveData<List<FavoriteItem>> =
-        cocktailsRepo.readCocktailData.map { cocktails ->
+
+    fun getFavoriteItemLiveData(email: String) {
+        favoriteItemLiveData = cocktailsRepo.getFavorites(email).map { cocktails ->
             val favItemsList = mutableListOf<FavoriteItem>()
             var i = 0
             if (cocktails.isEmpty()) return@map favItemsList
@@ -26,7 +28,7 @@ class FavoritesViewModel
 
             while (i < cocktails.size) {
                 if (tempLabel.title == cocktails[i].alcoholic || cocktails[i].alcoholic==null) {
-                    val tempItem =
+                    val tempItem=
                         cocktails[i].title?.let {
                             cocktails[i].imageSrc?.let { it1 ->
                                 cocktails[i].id?.let { it2 ->
@@ -50,6 +52,6 @@ class FavoritesViewModel
             }
             return@map favItemsList
         }
-
+    }
 
 }

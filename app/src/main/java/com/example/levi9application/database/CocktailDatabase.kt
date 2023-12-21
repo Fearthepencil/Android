@@ -9,7 +9,8 @@ import com.example.levi9application.models.Cocktail
 
 @Database(
     entities = [Cocktail::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class CocktailDatabase : RoomDatabase() {
 

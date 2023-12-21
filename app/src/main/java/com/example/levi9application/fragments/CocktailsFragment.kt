@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.levi9application.MainActivity
 import com.example.levi9application.R
 import com.example.levi9application.adapters.CocktailAdapter
 import com.example.levi9application.databinding.FragmentCocktailsBinding
@@ -34,14 +35,13 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     private lateinit var adapter: CocktailAdapter
     private var list: MutableList<Cocktail> = mutableListOf()
     private lateinit var cocktailViewModel: CocktailViewModel
+    private lateinit var email: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCocktailsBinding.inflate(inflater, container, false)
         cocktailViewModel = ViewModelProvider(this)[CocktailViewModel::class.java]
-
-
 
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -66,6 +66,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
+        email = (activity as MainActivity).email
         return binding.root
     }
 
@@ -73,7 +74,7 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
         super.onViewCreated(view, savedInstanceState)
         binding.etSearch.visibility = View.GONE
         if (args.category == "" || args.specificCategory == "") {
-            cocktailViewModel.getCocktails()
+            cocktailViewModel.getCocktails("",email)
             cocktailViewModel.getCocktailList.observe(viewLifecycleOwner) { cocktailModels ->
                 when (cocktailModels) {
                     is Resource.Success -> {
@@ -151,13 +152,13 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
 
         binding.etSearch.doAfterTextChanged {
             query = it.toString().trim()
-            cocktailViewModel.getCocktails(query)
+            cocktailViewModel.getCocktails(query,email)
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.swipeRefreshLayout.isRefreshing = false
             query = binding.etSearch.text.toString()
-            cocktailViewModel.getCocktails(query)
+            cocktailViewModel.getCocktails(query,email)
         }
     }
 
@@ -182,12 +183,10 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
         override fun onItemClick(cocktail: Cocktail) {
             if (cocktail.selected == true) {
                 cocktail.selected = false
-                cocktail.id?.let {
-                    cocktailViewModel.deleteCocktail(it)
-                }
+                cocktailViewModel.deleteCocktail(cocktail,email)
             } else {
                 cocktail.selected = true
-                cocktailViewModel.addCocktail(cocktail)
+                cocktailViewModel.addCocktail(cocktail,email)
             }
         }
     }

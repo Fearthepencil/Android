@@ -1,15 +1,20 @@
 package com.example.levi9application.viewModels
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.levi9application.common.Constants
 import com.example.levi9application.models.Cocktail
 import com.example.levi9application.models.Resource
 import com.example.levi9application.repositories.CocktailDataRepo
 import com.example.levi9application.repositories.CocktailRepo
 import com.example.levi9application.repositories.FilterRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -22,7 +27,9 @@ class CocktailViewModel
 @Inject constructor(
     private val cocktailRepo: CocktailRepo,
     private val filterRepo: FilterRepo,
-    cocktailDataRepo: CocktailDataRepo
+    cocktailDataRepo: CocktailDataRepo,
+    private val sharedPreferences: SharedPreferences,
+    private val applicationContext: Context
 ) :
     ViewModel() {
 
@@ -34,16 +41,16 @@ class CocktailViewModel
     private val debounce = 500L
 
     private val handler = CoroutineExceptionHandler { _, e ->
+        Toast.makeText(applicationContext,e.message,Toast.LENGTH_LONG).show()
         _response.value = e.message?.let { Resource.Error(it) }
     }
 
 
     init {
-        getCocktails()
         _repository = cocktailDataRepo
     }
 
-    fun getCocktails(query: String = "") {
+    fun getCocktails(query: String = "", email: String) {
         job?.cancel()
         job = viewModelScope.launch(handler) {
             _response.value = Resource.Loading()
@@ -53,9 +60,13 @@ class CocktailViewModel
             val response = cocktailRepo.getCocktailList(query)
             if (response.isSuccessful) {
                 val drinks = response.body()?.cocktails ?: emptyList()
-                val favorites = _repository.getFavoriteIds()
+                val favorites = sharedPreferences.getString(email+Constants.email_key,null)?.let {
+                        _repository.getFavoriteIds(it)
+                }
                 for (cocktail in drinks) {
-                    cocktail.selected = favorites.contains(cocktail.id)
+                    if (favorites != null) {
+                        cocktail.selected = favorites.contains(cocktail.id)
+                    }
                 }
                 _response.value = Resource.Success(drinks)
             } else {
@@ -71,9 +82,13 @@ class CocktailViewModel
             val response = filterRepo.getFilterList(queries)
             if (response.isSuccessful) {
                 val drinks = response.body()?.cocktails ?: emptyList()
-                val favorites = _repository.getFavoriteIds()
+                val favorites = sharedPreferences.getString(Constants.email_key,null)?.let {
+                    _repository.getFavoriteIds(it)
+                }
                 for (cocktail in drinks) {
-                    cocktail.selected = favorites.contains(cocktail.id)
+                    if (favorites != null) {
+                        cocktail.selected = favorites.contains(cocktail.id)
+                    }
                 }
                 _response.value = Resource.Success(drinks)
             } else {
@@ -82,17 +97,20 @@ class CocktailViewModel
         }
     }
 
-    fun addCocktail(cocktail: Cocktail) {
+    fun addCocktail(cocktail: Cocktail, email: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            cocktail.email = sharedPreferences.getString("${email}_email",null).toString()
             _repository.addCocktail(cocktail)
         }
     }
 
-    fun deleteCocktail(cocktail: Int) {
+    fun deleteCocktail(cocktail: Cocktail, email:String) {
         viewModelScope.launch(Dispatchers.IO) {
+            cocktail.email = sharedPreferences.getString("${email}_email",null).toString()
             _repository.removeCocktail(cocktail)
         }
     }
+
 
 
 }
