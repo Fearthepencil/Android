@@ -75,12 +75,7 @@ class RegisterFragment: Fragment(R.layout.fragment_registration) {
         if(binding.registerPassword.text.matches(passwordFilter)){
             return false
         }
-        val getter = viewModel.getString("${tempEmail}_email",null)
-        if(tempEmail == viewModel.getString("${tempEmail}_email",null)){
-            return false
-        }
-
-        return true
+        return tempEmail != viewModel.getString("${tempEmail}_email",null)
     }
 
     private fun clearPrefs(){

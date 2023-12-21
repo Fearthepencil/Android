@@ -25,14 +25,6 @@ class AuthActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-//        val button: Button = findViewById(R.id.buttonNavigate)
-//        button.setOnClickListener {
-//            // Create an Intent to start the SecondActivity
-//            val intent = Intent(this, MainActivity::class.java)
-//
-//            // Start the SecondActivity
-//            startActivity(intent)
-//        }
     }
 
 

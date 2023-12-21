@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.levi9application.MainActivity
 import com.example.levi9application.R
 import com.example.levi9application.adapters.FavoritesAdapter
 import com.example.levi9application.databinding.FragmentFavoritesBinding
@@ -30,7 +31,6 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[FavoritesViewModel::class.java]
 
-
         return _binding.root
     }
 
@@ -44,6 +44,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         _binding.rViewFavorites.apply {
             adapter = _adapter
         }
+        viewModel.getFavoriteItemLiveData((activity as MainActivity).email)
         viewModel.favoriteItemLiveData.observe(viewLifecycleOwner) {
             _adapter.setData(it)
             this.list = it

@@ -1,5 +1,6 @@
 package com.example.levi9application.viewModels
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,7 +23,8 @@ class CocktailViewModel
 @Inject constructor(
     private val cocktailRepo: CocktailRepo,
     private val filterRepo: FilterRepo,
-    cocktailDataRepo: CocktailDataRepo
+    cocktailDataRepo: CocktailDataRepo,
+    private val sharedPreferences: SharedPreferences
 ) :
     ViewModel() {
 
@@ -39,11 +41,10 @@ class CocktailViewModel
 
 
     init {
-        getCocktails()
         _repository = cocktailDataRepo
     }
 
-    fun getCocktails(query: String = "") {
+    fun getCocktails(query: String = "", email: String) {
         job?.cancel()
         job = viewModelScope.launch(handler) {
             _response.value = Resource.Loading()
@@ -53,9 +54,13 @@ class CocktailViewModel
             val response = cocktailRepo.getCocktailList(query)
             if (response.isSuccessful) {
                 val drinks = response.body()?.cocktails ?: emptyList()
-                val favorites = _repository.getFavoriteIds()
+                val favorites = sharedPreferences.getString("${email}_email",null)?.let {
+                        _repository.getFavoriteIds(it)
+                }
                 for (cocktail in drinks) {
-                    cocktail.selected = favorites.contains(cocktail.id)
+                    if (favorites != null) {
+                        cocktail.selected = favorites.contains(cocktail.id)
+                    }
                 }
                 _response.value = Resource.Success(drinks)
             } else {
@@ -71,9 +76,13 @@ class CocktailViewModel
             val response = filterRepo.getFilterList(queries)
             if (response.isSuccessful) {
                 val drinks = response.body()?.cocktails ?: emptyList()
-                val favorites = _repository.getFavoriteIds()
+                val favorites = sharedPreferences.getString("_email",null)?.let {
+                    _repository.getFavoriteIds(it)
+                }
                 for (cocktail in drinks) {
-                    cocktail.selected = favorites.contains(cocktail.id)
+                    if (favorites != null) {
+                        cocktail.selected = favorites.contains(cocktail.id)
+                    }
                 }
                 _response.value = Resource.Success(drinks)
             } else {
@@ -82,17 +91,20 @@ class CocktailViewModel
         }
     }
 
-    fun addCocktail(cocktail: Cocktail) {
+    fun addCocktail(cocktail: Cocktail, email: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            cocktail.email = sharedPreferences.getString("${email}_email",null)
             _repository.addCocktail(cocktail)
         }
     }
 
-    fun deleteCocktail(cocktail: Int) {
+    fun deleteCocktail(cocktail: Cocktail, email:String) {
         viewModelScope.launch(Dispatchers.IO) {
+            cocktail.email = sharedPreferences.getString("${email}_email",null)
             _repository.removeCocktail(cocktail)
         }
     }
+
 
 
 }

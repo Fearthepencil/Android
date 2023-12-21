@@ -13,8 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private var keepSplashOnScreen = true
-    private val delay = 2000L
+    lateinit var email : String
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
@@ -22,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        email = intent.getStringExtra("_email") ?: ""
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val bottomNavigationView = binding.bottomNavigationView
