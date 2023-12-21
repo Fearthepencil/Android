@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.levi9application.R
 import com.example.levi9application.common.Constants
@@ -39,8 +40,11 @@ class RegisterFragment: Fragment(R.layout.fragment_registration) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnLogin.setOnClickListener{
-            findNavController().popBackStack()
-            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+            val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.loginFragment, true)
+                .build()
+            findNavController().navigate(action,navOptions)
         }
 
         binding.btnRegister.setOnClickListener{
