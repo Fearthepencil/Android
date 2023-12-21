@@ -14,8 +14,9 @@ import com.example.levi9application.MainActivity
 import com.example.levi9application.R
 import com.example.levi9application.databinding.FragmentProfileBinding
 import com.example.levi9application.viewModels.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private var _binding: FragmentProfileBinding? = null
