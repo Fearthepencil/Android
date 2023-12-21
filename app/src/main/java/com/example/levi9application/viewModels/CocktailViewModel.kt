@@ -1,16 +1,20 @@
 package com.example.levi9application.viewModels
 
+import android.content.Context
 import android.content.SharedPreferences
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.levi9application.common.Constants
 import com.example.levi9application.models.Cocktail
 import com.example.levi9application.models.Resource
 import com.example.levi9application.repositories.CocktailDataRepo
 import com.example.levi9application.repositories.CocktailRepo
 import com.example.levi9application.repositories.FilterRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,7 +28,8 @@ class CocktailViewModel
     private val cocktailRepo: CocktailRepo,
     private val filterRepo: FilterRepo,
     cocktailDataRepo: CocktailDataRepo,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    private val applicationContext: Context
 ) :
     ViewModel() {
 
@@ -36,6 +41,7 @@ class CocktailViewModel
     private val debounce = 500L
 
     private val handler = CoroutineExceptionHandler { _, e ->
+        Toast.makeText(applicationContext,e.message,Toast.LENGTH_LONG).show()
         _response.value = e.message?.let { Resource.Error(it) }
     }
 
@@ -54,7 +60,7 @@ class CocktailViewModel
             val response = cocktailRepo.getCocktailList(query)
             if (response.isSuccessful) {
                 val drinks = response.body()?.cocktails ?: emptyList()
-                val favorites = sharedPreferences.getString("${email}_email",null)?.let {
+                val favorites = sharedPreferences.getString(email+Constants.email_key,null)?.let {
                         _repository.getFavoriteIds(it)
                 }
                 for (cocktail in drinks) {
@@ -76,7 +82,7 @@ class CocktailViewModel
             val response = filterRepo.getFilterList(queries)
             if (response.isSuccessful) {
                 val drinks = response.body()?.cocktails ?: emptyList()
-                val favorites = sharedPreferences.getString("_email",null)?.let {
+                val favorites = sharedPreferences.getString(Constants.email_key,null)?.let {
                     _repository.getFavoriteIds(it)
                 }
                 for (cocktail in drinks) {
