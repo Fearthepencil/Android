@@ -16,7 +16,7 @@ class CocktailAdapter(
         RecyclerView.ViewHolder(itemCocktailBinding.root) {
 
         init {
-            itemCocktailBinding.root.setOnClickListener {
+            itemCocktailBinding.toggle.setOnClickListener {
                 listener.onItemClick(cocktails[bindingAdapterPosition])
                 if (cocktails[bindingAdapterPosition].selected == true) {
                     itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_on)

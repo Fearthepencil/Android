@@ -93,14 +93,14 @@ class CocktailViewModel
 
     fun addCocktail(cocktail: Cocktail, email: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            cocktail.email = sharedPreferences.getString("${email}_email",null)
+            cocktail.email = sharedPreferences.getString("${email}_email",null).toString()
             _repository.addCocktail(cocktail)
         }
     }
 
     fun deleteCocktail(cocktail: Cocktail, email:String) {
         viewModelScope.launch(Dispatchers.IO) {
-            cocktail.email = sharedPreferences.getString("${email}_email",null)
+            cocktail.email = sharedPreferences.getString("${email}_email",null).toString()
             _repository.removeCocktail(cocktail)
         }
     }

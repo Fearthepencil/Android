@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.levi9application.R
+import com.example.levi9application.common.Constants
 import com.example.levi9application.databinding.FragmentRegistrationBinding
 import com.example.levi9application.viewModels.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,9 +20,9 @@ class RegisterFragment: Fragment(R.layout.fragment_registration) {
     private val binding get() = _binding!!
     private lateinit var viewModel: AuthViewModel
 
-    private val emailFilter = Regex("[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}")
-    private val passwordFilter = Regex("^(?=.*[A-Za-z])(?=.*\\\\d)[A-Za-z\\\\d]{6,}\$")
-    private val nameFilter = Regex("^[a-zA-Z]+$")
+    private val emailFilter = Regex(Constants.email_regex)
+    private val passwordFilter = Regex(Constants.password_regex)
+    private val nameFilter = Regex(Constants.name_regex)
 
 
     override fun onCreateView(
@@ -38,6 +39,7 @@ class RegisterFragment: Fragment(R.layout.fragment_registration) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnLogin.setOnClickListener{
+            findNavController().popBackStack()
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
@@ -48,7 +50,7 @@ class RegisterFragment: Fragment(R.layout.fragment_registration) {
             }
             else Toast.makeText(
                 requireContext(),
-                "Something ain't right",
+                R.string.error_message,
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -58,24 +60,26 @@ class RegisterFragment: Fragment(R.layout.fragment_registration) {
         val name = binding.registerName.text.toString()
         val password = binding.registerPassword.text.toString()
         val email = binding.registerEmail.text.toString()
-        viewModel.putString("${email}_name",name)
-        viewModel.putString("${email}_email",email)
-        viewModel.putString("${email}_password",password)
-        Toast.makeText(requireContext(),"saved in shared prefs: $name$email$password",Toast.LENGTH_SHORT).show()
+        viewModel.putString("${email}${Constants.name_key}",name)
+        viewModel.putString("${email}${Constants.email_key}",email)
+        viewModel.putString("${email}${Constants.password_key}",password)
+        Toast.makeText(requireContext(),R.string.success_message,Toast.LENGTH_SHORT).show()
     }
 
     private fun filterInput():Boolean{
         val tempEmail = binding.registerEmail.text.trim().toString()
-        if(!binding.registerName.text.matches(nameFilter)){
+        val tempName = binding.registerName.text.toString()
+        val tempPassword = binding.registerPassword.text.toString()
+        if(!tempName.matches(nameFilter)){
             return false
         }
-        if(tempEmail.matches(emailFilter)){
+        if(!tempEmail.matches(emailFilter)){
             return false
         }
-        if(binding.registerPassword.text.matches(passwordFilter)){
+        if(!tempPassword.matches(passwordFilter)){
             return false
         }
-        return tempEmail != viewModel.getString("${tempEmail}_email",null)
+        return tempEmail != viewModel.getString("${tempEmail}${Constants.email_key}",null)
     }
 
     private fun clearPrefs(){

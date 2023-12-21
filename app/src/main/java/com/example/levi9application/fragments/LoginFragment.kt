@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.levi9application.MainActivity
 import com.example.levi9application.R
+import com.example.levi9application.common.Constants
 import com.example.levi9application.databinding.FragmentLoginBinding
 import com.example.levi9application.viewModels.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,14 +39,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             if(checkInput()){
                 if(login()){
                     val intent = Intent(requireContext(), MainActivity::class.java)
-                    intent.putExtra("_email",email)
+                    intent.putExtra(Constants.email_key,email)
                     startActivity(intent)
                     activity?.finish()
                 }
                 else{
-                    Toast.makeText(requireContext(),"Something ain't right",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),R.string.error_message,Toast.LENGTH_SHORT).show()
                 }
             }
+            else if(binding.loginPassword.text.isNullOrEmpty()) Toast.makeText(requireContext(),R.string.empty_password,Toast.LENGTH_SHORT).show()
         }
         binding.btnRegister.setOnClickListener{
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -58,8 +60,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun login() : Boolean{
-        email = viewModel.getString("${binding.loginEmail.text}_email",null)
-        val password = viewModel.getString("${email}_password", null)
+        email = viewModel.getString("${binding.loginEmail.text}${Constants.email_key}",null)
+        val password = viewModel.getString("${email}${Constants.password_key}", null)
+        if(password!=binding.loginPassword.text.toString()) {
+            return false
+        }
         return !(email.isEmpty() || password.isEmpty())
     }
 }
