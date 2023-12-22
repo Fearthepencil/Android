@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.levi9application.MainActivity
 import com.example.levi9application.R
 import com.example.levi9application.databinding.FragmentDetailsBinding
@@ -80,15 +81,14 @@ class CocktailDetailFragment : Fragment(R.layout.fragment_details){
                 }
 
             }
-            detailViewModel.getDetails(cocktailID)
-            detailViewModel.checkFavorite(cocktailID,email)
+        }
 
-            detailViewModel.favorite.observe(viewLifecycleOwner){favorite ->
-                selected = favorite
-                if(favorite)  Picasso.get().load(R.drawable.toggle_button_on).into(binding.ivFav)
-                else Picasso.get().load(R.drawable.toggle_button_off).into(binding.ivFav)
-            }
+        detailViewModel.checkFavorite(cocktailID,email)
 
+        detailViewModel.favorite.observe(viewLifecycleOwner){favorite ->
+            selected = favorite
+            val resourceId = if(favorite) R.drawable.toggle_button_on else R.drawable.toggle_button_off
+          Glide.with(requireContext()).load(resourceId).into(binding.ivFav)
         }
 
         binding.ivFav.setOnClickListener{

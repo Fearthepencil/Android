@@ -65,7 +65,7 @@
     <fragment
         android:id="@+id/cocktailDetailFragment"
         android:name="com.example.levi9application.fragments.CocktailDetailFragment"
-        android:label="fragment_details"
+        android:label="CocktailDetails"
         tools:layout="@layout/fragment_details">
         <action
             android:id="@+id/action_cocktailDetailsFragment_to_cocktails"
