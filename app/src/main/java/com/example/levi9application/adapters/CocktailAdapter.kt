@@ -13,6 +13,7 @@ class CocktailAdapter(
     private val listener: OnFavoriteClickListener
 ) : RecyclerView.Adapter<CocktailAdapter.ItemViewHolder>() {
     var onItemClickListener: ((cocktail: Cocktail) -> Unit)? = null
+
     inner class ItemViewHolder(private val itemCocktailBinding: ItemCocktailBinding) :
         RecyclerView.ViewHolder(itemCocktailBinding.root) {
 
@@ -24,13 +25,13 @@ class CocktailAdapter(
                 } else {
                     itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_off)
                 }
-                itemCocktailBinding.cocktailImage.setOnClickListener{
-                    onItemClickListener?.invoke(cocktails[bindingAdapterPosition])
-                }
+            }
+            itemCocktailBinding.cocktailImage.setOnClickListener {
+                onItemClickListener?.invoke(cocktails[bindingAdapterPosition])
             }
 
 
-            }
+        }
 
         fun bind(cocktail: Cocktail) {
             if (cocktail.selected == true) {
@@ -65,8 +66,7 @@ class CocktailAdapter(
     }
 
 
-
-    interface OnFavoriteClickListener{
+    interface OnFavoriteClickListener {
         fun onFavoriteClick(cocktail: Cocktail)
     }
 

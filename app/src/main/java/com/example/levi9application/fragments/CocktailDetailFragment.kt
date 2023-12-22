@@ -47,6 +47,7 @@ class CocktailDetailFragment : Fragment(R.layout.fragment_details){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        detailViewModel.getDetails(cocktailID)
         detailViewModel.getCocktailDetails.observe(viewLifecycleOwner){ cocktails ->
             when(cocktails){
                 is Resource.Success -> {
@@ -77,7 +78,6 @@ class CocktailDetailFragment : Fragment(R.layout.fragment_details){
                     binding.group.visibility = View.GONE
                     binding.progressBar.visibility = View.GONE
                 }
-
 
             }
             detailViewModel.getDetails(cocktailID)
