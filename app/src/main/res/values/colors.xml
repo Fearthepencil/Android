@@ -12,5 +12,7 @@
     <color name="toolbar_color">#FBF1BD</color>
     <color name="splash">#F3C774</color>
     <color name="label">#AAF091</color>
+    <color name="details">#FBF1BD</color>
+    <color name="background">#EA9922</color>
 
 </resources>

@@ -1,4 +1,8 @@
 package com.example.levi9application.models
 
-class DetailsResponse {
-}
+import com.google.gson.annotations.SerializedName
+
+data class DetailsResponse(
+    @SerializedName("drinks")
+    val cocktails: ArrayList<CocktailDetail>?
+)

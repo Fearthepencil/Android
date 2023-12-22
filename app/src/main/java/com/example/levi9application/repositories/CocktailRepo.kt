@@ -5,4 +5,7 @@ import javax.inject.Inject
 
 class CocktailRepo @Inject constructor(private val apiService: APIService) : CocktailRepoInterface {
     override suspend fun getCocktailList(query: String) = apiService.getCocktailList(query)
+
+    override suspend fun getDetails(id: String) = apiService.getDetails(id)
+
 }

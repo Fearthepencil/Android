@@ -10,21 +10,27 @@ import com.squareup.picasso.Picasso
 
 class CocktailAdapter(
     private var cocktails: MutableList<Cocktail>,
-    private val listener: OnItemClickListener
+    private val listener: OnFavoriteClickListener
 ) : RecyclerView.Adapter<CocktailAdapter.ItemViewHolder>() {
+    var onItemClickListener: ((cocktail: Cocktail) -> Unit)? = null
     inner class ItemViewHolder(private val itemCocktailBinding: ItemCocktailBinding) :
         RecyclerView.ViewHolder(itemCocktailBinding.root) {
 
         init {
             itemCocktailBinding.toggle.setOnClickListener {
-                listener.onItemClick(cocktails[bindingAdapterPosition])
+                listener.onFavoriteClick(cocktails[bindingAdapterPosition])
                 if (cocktails[bindingAdapterPosition].selected == true) {
                     itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_on)
                 } else {
                     itemCocktailBinding.toggle.setImageResource(R.drawable.toggle_button_off)
                 }
+                itemCocktailBinding.cocktailImage.setOnClickListener{
+                    onItemClickListener?.invoke(cocktails[bindingAdapterPosition])
+                }
             }
-        }
+
+
+            }
 
         fun bind(cocktail: Cocktail) {
             if (cocktail.selected == true) {
@@ -36,6 +42,8 @@ class CocktailAdapter(
             Picasso.get().load(cocktail.imageSrc).into(itemCocktailBinding.cocktailImage)
 
         }
+
+
     }
 
 
@@ -47,6 +55,7 @@ class CocktailAdapter(
         )
     }
 
+
     override fun getItemCount(): Int {
         return cocktails.size
     }
@@ -55,8 +64,10 @@ class CocktailAdapter(
         holder.bind(cocktails[position])
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(cocktail: Cocktail)
+
+
+    interface OnFavoriteClickListener{
+        fun onFavoriteClick(cocktail: Cocktail)
     }
 
 

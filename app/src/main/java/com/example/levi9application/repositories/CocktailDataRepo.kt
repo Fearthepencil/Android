@@ -22,4 +22,8 @@ class CocktailDataRepo @Inject constructor(private val cocktailDAO: CocktailDAO)
     fun getFavorites(email: String):LiveData<List<Cocktail>>{
         return cocktailDAO.readCocktailData(email)
     }
+
+    fun getFavorite(cocktailID: String, userEmail: String): LiveData<Boolean> {
+        return  cocktailDAO.getFavorite(cocktailID, userEmail)
+    }
 }

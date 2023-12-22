@@ -8,9 +8,11 @@ import com.example.levi9application.databinding.ItemFavoritesBinding
 import com.example.levi9application.databinding.ItemLabelBinding
 import com.example.levi9application.models.FavoriteItem
 import com.example.levi9application.database.FavoritesHolder
+import com.example.levi9application.models.Cocktail
 
 class FavoritesAdapter(private var items: List<FavoriteItem>) :
     RecyclerView.Adapter<FavoritesHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesHolder {
         return when (viewType) {
@@ -29,7 +31,6 @@ class FavoritesAdapter(private var items: List<FavoriteItem>) :
             else -> throw IllegalArgumentException("Invalid Type")
         }
     }
-
     override fun onBindViewHolder(holder: FavoritesHolder, position: Int) {
         when(holder){
             is FavoritesHolder.CardViewHolder -> holder.bind(items[position] as FavoriteItem.Favorite)
@@ -37,6 +38,7 @@ class FavoritesAdapter(private var items: List<FavoriteItem>) :
         }
 
     }
+
 
     override fun getItemCount(): Int {
         return items.size
