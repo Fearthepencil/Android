@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.levi9application.MainActivity
 import com.example.levi9application.R
 import com.example.levi9application.adapters.FavoritesAdapter
 import com.example.levi9application.databinding.FragmentFavoritesBinding
+import com.example.levi9application.models.Cocktail
 import com.example.levi9application.models.FavoriteItem
 import com.example.levi9application.viewModels.FavoritesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +43,18 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         list = mutableListOf()
         _binding.rViewFavorites.layoutManager = layoutManager
         _adapter = FavoritesAdapter(list)
+////        _adapter.onItemClickListener = { cocktail: Cocktail ->
+////            val action =
+////                cocktail.selected?.let {
+////                    FavoritesFragmentDirections.actionFavoritesFragmentToCocktailDetailsFragment(
+////                        id = cocktail.id.toString(),
+////                        selected = it
+////                    )
+////                }
+////            if (action != null) {
+////                findNavController().navigate(action)
+////            }
+//        }
         _binding.rViewFavorites.apply {
             adapter = _adapter
         }

@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name"> Levi9 Application </string>
-    <string name="Profile"> Profile </string>
-    <string name="Cocktails"> Cocktails </string>
-    <string name="Favorites"> Favorites </string>
-    <string name="Profile_name"> Name </string>
-    <string name="Profile_email"> Email </string>
-    <string name="Profile_password"> Password </string>
+    <string name="Profile">Profile\u0020</string>
+    <string name="Cocktails">Cocktails\u0020</string>
+    <string name="Favorites">Favorites\u0020</string>
+    <string name="Profile_name">Name\u0020</string>
+    <string name="Profile_email">Email\u0020</string>
+    <string name="Profile_password">Password\u0020</string>
     <string name="name"> Placeholder Name </string>
     <string name="email"> placeholder@email.com </string>
     <string name="password"> password123 </string>
@@ -27,4 +27,13 @@
     <string name="enter_email">Please enter your email</string>
     <string name="enter_password">Please enter your password</string>
     <string name="empty_password">Password can not be empty!</string>
+    <string name="category">Category:</string>
+    <string name="icon">Icon</string>
+    <string name="glass_type">Glass type:</string>
+    <string name="beer">Beer\u0020</string>
+    <string name="beer_glass">Beer glass\u0020</string>
+    <string name="ingredients">Ingredients\u0020</string>
+    <string name="instructions">Instructions\u0020</string>
+    <string name="alcoholic">Alcoholic\u0020</string>
+    <string name="cocktails">Cocktails\u0020</string>
 </resources>

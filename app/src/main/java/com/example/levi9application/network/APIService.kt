@@ -2,6 +2,7 @@ package com.example.levi9application.network
 
 import com.example.levi9application.models.CategoriesResponse
 import com.example.levi9application.models.CocktailsResponse
+import com.example.levi9application.models.DetailsResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -16,4 +17,7 @@ interface APIService {
 
     @GET("filter.php")
     suspend fun getFilterList(@QueryMap queries: Map<String,String>): Response<CocktailsResponse>
+
+    @GET("lookup.php")
+    suspend fun getDetails(@Query("i") query: String=""): Response<DetailsResponse>
 }

@@ -10,25 +10,33 @@
         android:name="com.example.levi9application.fragments.CocktailsFragment"
         android:color="@color/white"
         android:label="Cocktails"
-        tools:layout="@layout/fragment_cocktails" >
+        tools:layout="@layout/fragment_cocktails">
         <action
             android:id="@+id/action_cocktails_to_filterFragment"
             app:destination="@id/filterFragment" />
         <argument
             android:name="category"
-            app:argType="string"
-            android:defaultValue="" />
+            android:defaultValue=""
+            app:argType="string" />
         <argument
             android:name="specificCategory"
-            app:argType="string"
-            android:defaultValue="" />
+            android:defaultValue=""
+            app:argType="string" />
+        <action
+            android:id="@+id/action_cocktailsFragment_to_cocktailDetailFragment"
+            app:destination="@id/cocktailDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/favorites"
         android:name="com.example.levi9application.fragments.FavoritesFragment"
         android:color="@color/white"
         android:label="Favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favoritesFragment_to_cocktailDetailsFragment"
+            app:destination="@id/cocktailDetailFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/profile"
         android:name="com.example.levi9application.fragments.ProfileFragment"
@@ -38,7 +46,7 @@
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.example.levi9application.fragments.FilterFragment"
-        android:label="FilterFragment" >
+        android:label="FilterFragment">
         <action
             android:id="@+id/action_filterFragment_to_filterDetailFragment"
             app:destination="@id/filterDetailFragment" />
@@ -46,12 +54,28 @@
     <fragment
         android:id="@+id/filterDetailFragment"
         android:name="com.example.levi9application.fragments.FilterDetailFragment"
-        android:label="FilterDetailFragment" >
+        android:label="FilterDetailFragment">
         <argument
             android:name="selected"
             app:argType="string" />
         <action
             android:id="@+id/action_filterDetailFragment_to_cocktails"
             app:destination="@id/cocktails" />
+    </fragment>
+    <fragment
+        android:id="@+id/cocktailDetailFragment"
+        android:name="com.example.levi9application.fragments.CocktailDetailFragment"
+        android:label="CocktailDetails"
+        tools:layout="@layout/fragment_details">
+        <action
+            android:id="@+id/action_cocktailDetailsFragment_to_cocktails"
+            app:destination="@id/cocktails" />
+        <argument
+            android:name="id"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="selected"
+            app:argType="boolean" />
     </fragment>
 </navigation>

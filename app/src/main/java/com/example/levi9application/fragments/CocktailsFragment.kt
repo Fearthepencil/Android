@@ -163,7 +163,18 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     }
 
     private fun rvSetup() {
-        adapter = CocktailAdapter(list, viewBindingOnItemClickListener)
+        adapter = CocktailAdapter(list, viewBindingOnFavoriteClickListener)
+        adapter.onItemClickListener = { cocktail: Cocktail ->
+            val action = cocktail.selected?.let {
+                CocktailsFragmentDirections.actionCocktailsFragmentToCocktailDetailFragment(
+                    id = cocktail.id.toString(),
+                    selected = it
+                )
+            }
+            if (action != null) {
+                findNavController().navigate(action)
+            }
+        }
         binding.rViewCocktails.adapter = adapter
         val layoutManager = GridLayoutManager(context, 2)
         binding.rViewCocktails.layoutManager = layoutManager
@@ -179,8 +190,8 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
     }
 
 
-    private val viewBindingOnItemClickListener = object : CocktailAdapter.OnItemClickListener {
-        override fun onItemClick(cocktail: Cocktail) {
+    private val viewBindingOnFavoriteClickListener = object : CocktailAdapter.OnFavoriteClickListener {
+        override fun onFavoriteClick(cocktail: Cocktail) {
             if (cocktail.selected == true) {
                 cocktail.selected = false
                 cocktailViewModel.deleteCocktail(cocktail,email)
@@ -190,4 +201,5 @@ class CocktailsFragment : Fragment(R.layout.fragment_cocktails) {
             }
         }
     }
+
 }

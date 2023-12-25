@@ -23,4 +23,7 @@ interface CocktailDAO {
     //read where email = email_param
     @Query("SELECT id FROM cocktail_table WHERE email = :email ORDER BY id ASC")
     suspend fun readFavoriteId(email: String): List<Int>
+
+    @Query("SELECT (count(id) > 0) as favorite FROM cocktail_table WHERE email = :email AND id = :cocktailID")
+    fun getFavorite(cocktailID: String, email: String): LiveData<Boolean>
 }
