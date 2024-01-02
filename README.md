@@ -46,7 +46,7 @@ If you're interested in contributing to the development of the app, follow these
 
 4. **Contribute:**
    - Fork the repository, make your changes, and submit a pull request.
-5. **Clone the Repository:**
+5. **See the code:**
    - The current development version can be found in the [dev](https://github.com/Fearthepencil/Cocktails/tree/dev)       branch.
 
 ## Community and Support
