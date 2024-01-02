@@ -15,7 +15,7 @@ Welcome to the Cocktail App! This app allows users to explore a variety of cockt
 To use the app, follow these steps:
 
 1. **Download and Install:**
-   - Download the APK file from the [Releases](https://github.com/Fearthepencil/Cocktails/Releases) section.
+   - Download the APK file from the [Releases](https://github.com/Fearthepencil/Cocktails/releases) section.
    - Install the app on your Android device.
 
 2. **Explore Recipes:**
@@ -49,6 +49,6 @@ If you're interested in contributing to the development of the app, follow these
 
 ## Community and Support
 
-For any questions, issues, or suggestions, please open an [issue](https://github.com/Fearthepencil/Cocktails/Issues). We welcome contributions and feedback from the community.
+For any questions, issues, or suggestions, please open an [issue](https://github.com/Fearthepencil/Cocktails/issues). We welcome contributions and feedback from the community.
 
 Enjoy your mixology journey with the Cocktail App! 🍹✨
